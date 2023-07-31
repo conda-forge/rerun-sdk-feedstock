@@ -1,13 +1,12 @@
 @echo on
+REM https://github.com/rust-lang/cargo/issues/10583#issuecomment-1129997984
+set CARGO_NET_GIT_FETCH_WITH_CLI=true
 
-set "PYO3_PYTHON=%PYTHON%"
-
-maturin build --release --interpreter=%PYTHON%  -m rerun_py\Cargo.toml  --no-default-features --features pypi
-
-FOR %%G IN (%SRC_DIR%\target\wheels\*.whl) DO (
-    %PYTHON% -m pip install --ignore-installed --no-deps -vv %%G
-)
-if errorlevel 1 exit 1
-
+REM Bundle all downstream library licenses
 cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
 if errorlevel 1 exit 1
+
+REM Run the maturin build via pip
+set PYTHONUTF8=1
+set PYTHONIOENCODING="UTF-8"
+%PYTHON% -m pip install . -vv

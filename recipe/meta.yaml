@@ -32,6 +32,7 @@ requirements:
   host:
     - pip
     - python
+    - maturin
   run:
     - python
     - pyarrow ==10.0.1
