@@ -32,10 +32,11 @@ requirements:
     - python
   run:
     - python
-    - pyarrow ==10.0.1
+    - attrs >=23.1.0
     - deprecated
     - numpy >=1.23
-    - pillow >=9.5.0,<10
+    - pillow
+    - pyarrow ==10.0.1
     - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("11") }}  # [osx]
 
 test:
