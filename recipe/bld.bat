@@ -9,4 +9,4 @@ if errorlevel 1 exit 1
 REM Run the maturin build via pip
 set PYTHONUTF8=1
 set PYTHONIOENCODING="UTF-8"
-%PYTHON% -m pip install . -vv
+%PYTHON% -m pip install rerun_py/ -vv
