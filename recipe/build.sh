@@ -9,4 +9,4 @@ cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
 
 # Run the maturin build via pip which works for direct and
 # cross-compiled builds.
-"${PYTHON}" -m pip install rerun_py/ -vv
+MATURIN_PEP517_ARGS="--features pypi" "${PYTHON}" -m pip install rerun_py/ -vv

@@ -11,13 +11,15 @@ source:
 
 
 build:
-  number: 0
+  number: 1
   skip: true  # [py<38]
 
 requirements:
   build:
     - python                                 # [build_platform != target_platform]
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+    - crossenv                               # [build_platform != target_platform]
+    - maturin >=0.14,<0.15                   # [build_platform != target_platform]
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - cargo-bundle-licenses
@@ -27,7 +29,6 @@ requirements:
     - semver >=2.13,<2.14
     - wheel >=0.38,<0.39
     - pytest
-    - maturin >=0.14,<0.15
     - binaryen
   host:
     - pip
