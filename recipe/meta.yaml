@@ -11,7 +11,7 @@ source:
 
 
 build:
-  number: 1
+  number: 2
   skip: true  # [py<38]
 
 requirements:
@@ -26,6 +26,9 @@ requirements:
     # Not using the conda compiler as its version was to low
     - rust >=1.67.1
     - rust-std-wasm32-unknown-unknown
+    {% if target_platform == "osx-arm64" %}
+    - rust-std-aarch64-apple-darwin
+    {% endif %}
     - semver >=2.13,<2.14
     - wheel >=0.38,<0.39
     - pytest
