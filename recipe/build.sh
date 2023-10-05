@@ -13,6 +13,7 @@ fi
 
 export RERUN_IS_PUBLISHING=yes
 
+cargo run --locked -p re_build_web_viewer -- --release
 
 # Run the maturin build via pip which works for direct and
 # cross-compiled builds.
