@@ -9,5 +9,9 @@ if errorlevel 1 exit 1
 REM Run the maturin build via pip
 set PYTHONUTF8=1
 set PYTHONIOENCODING="UTF-8"
+set RERUN_IS_PUBLISHING=yes
+
+cargo run --locked -p re_build_web_viewer -- --release
+
 set MATURIN_PEP517_ARGS=--features pypi
 %PYTHON% -m pip install rerun_py/ -vv
