@@ -40,10 +40,10 @@ requirements:
   run:
     - python
     - attrs >=23.1.0
-    - deprecated
     - numpy >=1.23
     - pillow
     - pyarrow ==10.0.1
+    - typing_extensions >=4.5
     - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("11") }}  # [osx]
 
 test:
