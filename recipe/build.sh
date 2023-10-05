@@ -11,6 +11,8 @@ if [[ $CONDA_BUILD_CROSS_COMPILATION == "1"  && $target_platform == "osx-arm64" 
     MATURIN_CROSS_TARGET="--target aarch64-apple-darwin"
 fi
 
+export RERUN_IS_PUBLISHING=yes
+
 
 # Run the maturin build via pip which works for direct and
 # cross-compiled builds.
