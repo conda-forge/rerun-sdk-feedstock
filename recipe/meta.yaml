@@ -11,12 +11,12 @@ source:
 
 
 build:
-  number: 0
+  number: 1
   skip: true  # [py<38]
 
 requirements:
   build:
-    - python                                 # [build_platform != target_platform]
+    - python                                 
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
     - crossenv                               # [build_platform != target_platform]
     - maturin >=0.14,<0.15                   # [build_platform != target_platform]
@@ -36,7 +36,7 @@ requirements:
   host:
     - pip
     - python
-    - maturin
+    - maturin >=0.14,<0.15 
   run:
     - python
     - attrs >=23.1.0
