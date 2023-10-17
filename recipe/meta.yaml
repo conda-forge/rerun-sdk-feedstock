@@ -52,6 +52,7 @@ test:
     - pip
   commands:
     - pip check
+    - rerun --version
 
 about:
   home: https://www.rerun.io/
