@@ -10,7 +10,7 @@ source:
   sha256: 39974e2eeda49594e2c61f0aa86eb5420097297cc8925f43e8da5fb23c259334
 
 build:
-  number: 2
+  number: 3
   skip: true  # [py<38]
   entry_points:
     - rerun = rerun.__main__:main
