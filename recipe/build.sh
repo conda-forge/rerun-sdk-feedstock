@@ -7,11 +7,12 @@ export CARGO_NET_GIT_FETCH_WITH_CLI=true
 
 cargo-bundle-licenses --format yaml --output THIRDPARTY.yml 
 
+# The CI environment variable means something specific to Rerun. Unset it.
+unset CI
+
 if [[ $CONDA_BUILD_CROSS_COMPILATION == "1"  && $target_platform == "osx-arm64" ]]; then
     MATURIN_CROSS_TARGET="--target aarch64-apple-darwin"
 fi
-
-export RERUN_IS_PUBLISHING=yes
 
 cargo run --locked -p re_build_web_viewer -- --release
 
