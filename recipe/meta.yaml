@@ -1,5 +1,5 @@
 {% set name = "rerun-sdk" %}
-{% set version = "0.10.0" %}
+{% set version = "0.10.1" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/rerun-io/rerun/archive/refs/tags/{{ version }}.tar.gz
-  sha256: a949aa7b941053d4ce7d241b5471d5ef3a10c59d759b40f3d07a6a13872b381f
+  sha256: 94dbce4af9a8177bd6577d12576caeae7353caccfd0094d1b9142d1e1a7b71b8
 
 build:
   number: 0
@@ -33,9 +33,9 @@ requirements:
     # binaryen gives us wasm-opt, for optimizing the an .wasm file for speed and size
     - binaryen
   host:
-    - python  
+    - python
     - pip
-    - maturin >=0.14,<0.15    
+    - maturin >=0.14,<0.15
   run:
     - python
     - attrs >=23.1.0
