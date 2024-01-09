@@ -41,7 +41,7 @@ requirements:
     - attrs >=23.1.0
     - numpy >=1.23
     - pillow
-    - pyarrow ==10.0.1
+    - pyarrow ==14.0.2
     - typing_extensions >=4.5
     - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("11") }}  # [osx]
 
