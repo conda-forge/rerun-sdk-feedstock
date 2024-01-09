@@ -47,7 +47,7 @@ requirements:
 
 test:
   imports:
-    - rerun_sdk
+    - rerun
   requires:
     - pip
   commands:
