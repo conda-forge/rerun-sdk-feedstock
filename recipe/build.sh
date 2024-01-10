@@ -4,6 +4,7 @@ set -ex
 
 # https://github.com/rust-lang/cargo/issues/10583#issuecomment-1129997984
 export CARGO_NET_GIT_FETCH_WITH_CLI=true
+export IS_IN_RERUN_WORKSPACE=no
 
 cargo-bundle-licenses --format yaml --output THIRDPARTY.yml 
 
