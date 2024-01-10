@@ -25,7 +25,7 @@ requirements:
     - {{ compiler('cxx') }}
     - cargo-bundle-licenses
     # Not using the conda compiler as its version was to low
-    - rust >=1.67.1
+    - rust ==1.74.0
     - rust-std-wasm32-unknown-unknown
     {% if target_platform == "osx-arm64" %}
     - rust-std-aarch64-apple-darwin
