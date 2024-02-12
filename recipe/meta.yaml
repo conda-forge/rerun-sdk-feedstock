@@ -1,5 +1,5 @@
 {% set name = "rerun-sdk" %}
-{% set version = "0.12.1" %}
+{% set version = "0.13.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/rerun-io/rerun/archive/refs/tags/{{ version }}.tar.gz
-  sha256: a3a5ea993027072ad72a1b79d4a07e742044be71aa41610ad54256837fb727c0
+  sha256: 473c10417f03b9461412f89fbb3edb2bb85653298b825f250f42b6da480a3642
 
 build:
   number: 0
