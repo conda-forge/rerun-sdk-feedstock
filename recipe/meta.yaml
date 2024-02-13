@@ -43,13 +43,12 @@ requirements:
     - pillow
     - pyarrow >=14.0.2
     - typing_extensions >=4.5
-    - {{ stdlib('c') }}
+    - __glibc >=2.27                                        # [linux]
     - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("11") }}  # [osx]
 
 test:
   requires:
     - packaging
-    - {{ stdlib('c') }}
 
 about:
   home: https://www.rerun.io/
