@@ -6,11 +6,12 @@ from packaging import version
 
 def main():
 
-    libc_ver = version.parse(platform.libc_ver()[1])
     
-    if platform.system() == "Linux" and libc_ver < version.parse("2.27"):
-        print("WARNING: Skipping runtime tests since GLIBC version is lower than 2.27")
-        return True
+    if platform.system() == "Linux":
+        libc_ver = version.parse(platform.libc_ver()[1])
+        if libc_ver < version.parse("2.27"):
+            print("WARNING: Skipping runtime tests since GLIBC version is lower than 2.27")
+            return True
 
     # Version we can import rerun
     import rerun
