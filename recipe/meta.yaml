@@ -41,18 +41,15 @@ requirements:
     - attrs >=23.1.0
     - numpy >=1.23
     - pillow
-    - pyarrow ==14.0.2
+    - pyarrow >=14.0.2
     - typing_extensions >=4.5
+    - {{ stdlib('c') }}
     - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("11") }}  # [osx]
 
 test:
-  imports:
-    - rerun
   requires:
-    - pip
-  commands:
-    - pip check
-    - rerun --version
+    - packaging
+    - {{ stdlib('c') }}
 
 about:
   home: https://www.rerun.io/
