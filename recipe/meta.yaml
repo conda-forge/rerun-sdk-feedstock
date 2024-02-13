@@ -50,7 +50,7 @@ requirements:
 test:
   requires:
     - packaging
-    - sysroot_linux-64 >=2.27 #[linux]
+    - sysroot_linux-64 >=2.27  #[linux]
 
 about:
   home: https://www.rerun.io/
