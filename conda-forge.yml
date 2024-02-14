@@ -1,3 +1,6 @@
+azure:
+  store_build_artifacts: true
+  artifact_retention_days: 14
 build_platform:
   osx_arm64: osx_64
 conda_build:
