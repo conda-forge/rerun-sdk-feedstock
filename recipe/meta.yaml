@@ -44,13 +44,16 @@ requirements:
     - pyarrow >=14.0.2
     - typing_extensions >=4.5
     - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("11") }}  # [osx]
-  run_constrained:
-    - __glibc >=2.27                                        # [linux]
+
+# TODO(jleibs): Would be nice to add this constraint, but it causes test to fail
+# to solve. Just live with the lack of constraint for now.
+#
+# run_constrained:
+#   - __glibc >=2.27                                        # [linux]
 
 test:
   requires:
     - packaging
-    - sysroot_linux-64 >=2.27  #[linux]
 
 about:
   home: https://www.rerun.io/
