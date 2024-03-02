@@ -15,9 +15,6 @@ source:
 
 build:
   number: 1
-  skip: true  # [py<38]
-  entry_points:
-    - rerun = rerun.__main__:main
 
 outputs:
   - name: {{cxx_name}}
