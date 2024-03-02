@@ -1,4 +1,5 @@
-{% set name = "rerun-sdk" %}
+{% set cxx_name = "librerun-sdk" %}
+{% set python_name = "rerun-sdk" %}
 {% set version = "0.13.0" %}
 
 package:
@@ -15,45 +16,90 @@ build:
   entry_points:
     - rerun = rerun.__main__:main
 
-requirements:
-  build:
-    - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-    - crossenv                               # [build_platform != target_platform]
-    - python                                 # [build_platform != target_platform]
-    - maturin >=1.3.0                        # [build_platform != target_platform]
-    - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
-    - cargo-bundle-licenses
-    # Not using the conda compiler as its version was to low
-    - rust ==1.74.0
-    - rust-std-wasm32-unknown-unknown
-    {% if target_platform == "osx-arm64" %}
-    - rust-std-aarch64-apple-darwin
-    {% endif %}
-    # binaryen gives us wasm-opt, for optimizing the an .wasm file for speed and size
-    - binaryen
-  host:
-    - python
-    - pip
-    - maturin >=1.3.0
-  run:
-    - python
-    - attrs >=23.1.0
-    - numpy >=1.23
-    - pillow
-    - pyarrow >=14.0.2
-    - typing_extensions >=4.5
-    - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("11") }}  # [osx]
+outputs:
+  - name: {{cxx_name}}
+    script: build_cxx.sh  # [unix]
+    script: bld_cxx.bat  # [win]
+    build:
+      run_exports:
+        - {{ pin_subpackage(cxx_name, max_pin='x.x.x') }}
+    requirements:
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - cmake
+        - pkg-config
+        - ninja
+        - rust ==1.74.0
+      host:
+        - libarrow
+      run_constrained:
+        - {{ python_name }} {{ version }}
 
-# TODO(jleibs): Would be nice to add this constraint, but it causes test to fail
-# to solve. Just live with the lack of constraint for now.
-#
-# run_constrained:
-#   - __glibc >=2.27                                        # [linux]
+    test:
+      commands:
+        - test -f ${PREFIX}/include/rerun.hpp  # [unix]
+        - test -f ${PREFIX}/lib/librerun_sdk${SHLIB_EXT}  # [unix]
+        - if not exist %LIBRARY_PREFIX%\\include\\rerun.hh exit 1  # [win]
+        - if not exist %LIBRARY_PREFIX%\\lib\\rerun_sdk.lib exit 1  # [win]
+        - if not exist %LIBRARY_PREFIX%\\bin\\rerun_sdk.dll exit 1  # [win]
+        - cmake-package-check rerun_sdk
+      requires:
+        - cmake-package-check
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
 
-test:
-  requires:
-    - packaging
+
+  - name: {{python_name}}
+    script: build_py.sh  # [unix]
+    script: bld_py.bat  # [win]
+    build:
+      skip: true  # [py<38]
+      entry_points:
+        - rerun = rerun.__main__:main
+    requirements:
+      build:
+        - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+        - crossenv                               # [build_platform != target_platform]
+        - python                                 # [build_platform != target_platform]
+        - maturin >=1.3.0                        # [build_platform != target_platform]
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - cargo-bundle-licenses
+        # Not using the conda compiler as its version was to low
+        - rust ==1.74.0
+        - rust-std-wasm32-unknown-unknown
+        {% if target_platform == "osx-arm64" %}
+        - rust-std-aarch64-apple-darwin
+        {% endif %}
+        # binaryen gives us wasm-opt, for optimizing the an .wasm file for speed and size
+        - binaryen
+      host:
+        - python
+        - pip
+        - maturin >=1.3.0
+      run:
+        - python
+        - attrs >=23.1.0
+        - numpy >=1.23
+        - pillow
+        - pyarrow >=14.0.2
+        - typing_extensions >=4.5
+        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("11") }}  # [osx]
+      run_constrained:
+        - {{ cxx_name }} {{ version }}
+
+
+    # TODO(jleibs): Would be nice to add this constraint, but it causes test to fail
+    # to solve. Just live with the lack of constraint for now.
+    #
+    # run_constrained:
+    #   - __glibc >=2.27                                        # [linux]
+    
+    test:
+      requires:
+        - packaging
+
 
 about:
   home: https://www.rerun.io/
@@ -61,6 +107,10 @@ about:
   description: |
     Rerun is an SDK for logging computer vision and robotics data paired with a visualizer for exploring that data over time. 
     It lets you debug and understand the internal state and data of your systems with minimal code.
+
+    This feedstock builds two packages:
+      * `rerun-sdk` provides the Python API for rerun, and the `rerun` executable
+      * `librerun-sdk` provides the C++ API for rerun
   license: MIT OR Apache-2.0
   license_file:
     - THIRDPARTY.yml
