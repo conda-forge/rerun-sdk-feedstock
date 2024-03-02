@@ -33,6 +33,7 @@ outputs:
         - cmake
         - pkg-config
         - ninja
+        - cargo-bundle-licenses
         - rust ==1.74.0
       host:
         - libarrow
