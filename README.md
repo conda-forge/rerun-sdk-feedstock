@@ -340,4 +340,5 @@ Feedstock Maintainers
 
 * [@jleibs](https://github.com/jleibs/)
 * [@ruben-arts](https://github.com/ruben-arts/)
+* [@traversaro](https://github.com/traversaro/)
 
