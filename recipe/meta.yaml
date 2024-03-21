@@ -25,7 +25,7 @@ requirements:
     - {{ compiler('cxx') }}
     - {{ compiler('rust') }}  # [target_platform != "osx-arm64"]
     {% if target_platform == "osx-arm64" %}
-      - rust
+      - rust ==1.74.0
       - rust-std-aarch64-apple-darwin
     {% endif %}
     - cargo-bundle-licenses
