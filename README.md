@@ -306,6 +306,3 @@ Feedstock Maintainers
 * [@jleibs](https://github.com/jleibs/)
 * [@ruben-arts](https://github.com/ruben-arts/)
 
-
-<!-- dummy commit to enable rerendering -->
-
