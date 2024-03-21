@@ -24,10 +24,8 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - {{ compiler('rust') }}  # [target_platform != "osx-arm64"]
-    {% if target_platform == "osx-arm64" %}
-      - rust ==1.74.0
-      - rust-std-aarch64-apple-darwin
-    {% endif %}
+    - rust  # [target_platform == "osx-arm64"]
+    - rust-std-aarch64-apple-darwin  # [target_platform == "osx-arm64"]
     - cargo-bundle-licenses
     - rust-std-wasm32-unknown-unknown
     # binaryen gives us wasm-opt, for optimizing the an .wasm file for speed and size
