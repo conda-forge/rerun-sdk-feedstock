@@ -20,6 +20,8 @@ pin_run_as_build:
     max_pin: x.x
 python:
 - 3.8.* *_cpython
+rust_compiler:
+- rust
 target_platform:
 - linux-64
 zip_keys:
