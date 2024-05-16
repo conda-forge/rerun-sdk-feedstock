@@ -15,7 +15,9 @@ if [[ $CONDA_BUILD_CROSS_COMPILATION == "1"  && $target_platform == "osx-arm64" 
     MATURIN_CROSS_TARGET="--target aarch64-apple-darwin"
 fi
 
-cargo run --locked -p re_build_web_viewer -- --release
+cargo run --package rerun-cli --no-default-features --features native_viewer --release
+cargo run --locked -p re_dev_tools -- build-web-viewer --release -g
+cp target/release/rerun-cli rerun_py/rerun_sdk/rerun_cli/rerun
 
 # Run the maturin build via pip which works for direct and
 # cross-compiled builds.

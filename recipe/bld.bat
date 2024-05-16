@@ -17,7 +17,9 @@ REM Run the maturin build via pip
 set PYTHONUTF8=1
 set PYTHONIOENCODING="UTF-8"
 
-cargo run --locked -p re_build_web_viewer -- --release
+cargo run --package rerun-cli --no-default-features --features native_viewer --release
+cargo run --locked -p re_dev_tools -- build-web-viewer --release -g
+cp target/release/rerun-cli rerun_py/rerun_sdk/rerun_cli/rerun
 
 set MATURIN_PEP517_ARGS=--features pypi
 %PYTHON% -m pip install rerun_py/ -vv
