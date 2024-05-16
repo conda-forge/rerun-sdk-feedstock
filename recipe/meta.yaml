@@ -1,5 +1,5 @@
 {% set name = "rerun-sdk" %}
-{% set version = "0.15.1" %}
+{% set version = "0.16.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/rerun-io/rerun/archive/refs/tags/{{ version }}.tar.gz
-  sha256: 5b4ebd35c79464a1fecf3078f8d74d8a04624fdf2ed4b2986f9b499d40a7be5d
+  sha256: 8cdb1c1bea073727007ff60c4631a1bb25fe48dbefb55a7c1afa57bd558aea9e
 
 build:
   number: 0
@@ -22,6 +22,7 @@ requirements:
     - python                                 # [build_platform != target_platform]
     - maturin >=1.3.0                        # [build_platform != target_platform]
     - {{ compiler('c') }}
+    - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
     - {{ compiler('rust') }}  # [target_platform != "osx-arm64"]
     - rust  # [target_platform == "osx-arm64"]
@@ -41,7 +42,6 @@ requirements:
     - pillow
     - pyarrow >=14.0.2
     - typing_extensions >=4.5
-    - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("11") }}  # [osx]
 
 # TODO(jleibs): Would be nice to add this constraint, but it causes test to fail
 # to solve. Just live with the lack of constraint for now.
