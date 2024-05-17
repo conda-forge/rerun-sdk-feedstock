@@ -19,7 +19,9 @@ set PYTHONIOENCODING="UTF-8"
 
 REM Build the rerun-cli and insert it into the python package
 cargo build --package rerun-cli --no-default-features --features native_viewer --release
-copy target\x86_64-pc-windows-msvc\release\rerun.exe rerun_py\rerun_sdk\rerun_cli\rerun.exe
+dir target
+dir target\release
+copy target\release\rerun.exe rerun_py\rerun_sdk\rerun_cli\rerun.exe
 
 REM Build the rerun-web-viewer assets
 cargo run --locked -p re_dev_tools -- build-web-viewer --release -g
