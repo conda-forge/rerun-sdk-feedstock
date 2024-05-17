@@ -25,6 +25,7 @@ requirements:
     - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
     - {{ compiler('rust') }}  # [target_platform != "osx-arm64"]
+    - sysroot_linux-64 2.28  # [linux64]
     - rust  # [target_platform == "osx-arm64"]
     - rust-std-aarch64-apple-darwin  # [target_platform == "osx-arm64"]
     - cargo-bundle-licenses
