@@ -30,5 +30,6 @@ set MATURIN_PEP517_ARGS=--features pypi
 %PYTHON% -m pip install rerun_py/ -vv
 
 npm i yarn
+npx yarn install --cwd rerun_js
 npx yarn --cwd rerun_js/web-viewer run build
 %PYTHON% -m pip install rerun_notebook/ -vv
