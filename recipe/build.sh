@@ -48,4 +48,4 @@ MATURIN_PEP517_ARGS="$CROSS_TARGET --features pypi" "${PYTHON}" -m pip install r
 
 npm i yarn
 npx yarn --cwd rerun_js/web-viewer run build
-${PYTHON}" -m pip install rerun_notebook/ -vv
+"${PYTHON}" -m pip install rerun_notebook/ -vv
