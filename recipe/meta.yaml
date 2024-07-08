@@ -37,6 +37,9 @@ requirements:
     - binaryen
     - nodejs >=20.12
   host:
+    - anywidget
+    - hatch
+    - hatch-jupyter-builder
     - python
     - pip
     - maturin >=1.3.0
