@@ -35,6 +35,7 @@ requirements:
     - rust-std-wasm32-unknown-unknown
     # binaryen gives us wasm-opt, for optimizing the an .wasm file for speed and size
     - binaryen
+    - nodejs >=20.12
   host:
     - python
     - pip
@@ -42,6 +43,8 @@ requirements:
   run:
     - python
     - attrs >=23.1.0
+    - anywidget
+    - jupyter-ui-poll
     - numpy >=1.23
     - pillow
     - pyarrow >=14.0.2
