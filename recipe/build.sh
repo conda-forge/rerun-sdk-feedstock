@@ -31,10 +31,8 @@ esac
 
 if [[ $CONDA_BUILD_CROSS_COMPILATION == "1"  && $target_platform == "osx-arm64" ]]; then
     export CROSS_TARGET="--target aarch64-apple-darwin"
-    export HOST_TARGET="--target x86_64-apple-darwin"
 else
     export CROSS_TARGET=""
-    export HOST_TARGET=""
 fi
 
 # Build the rerun-cli and insert it into the python package
@@ -42,7 +40,7 @@ cargo build --package rerun-cli $CROSS_TARGET --no-default-features --features n
 cp target/$RUST_TARGET/release/rerun rerun_py/rerun_sdk/rerun_cli/rerun 
 
 # Build the rerun-web-viewer assets
-cargo run $HOST_TARGET --locked -p re_dev_tools -- build-web-viewer --release -g
+cargo run --locked -p re_dev_tools -- build-web-viewer --release -g
 
 # Run the maturin build via pip which works for direct and
 # cross-compiled builds.
