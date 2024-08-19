@@ -33,7 +33,7 @@ requirements:
     # Use the same version specified in https://github.com/rerun-io/rerun/blob/0.18.0/rust-toolchain#L8
     - rust 1.76.0  # [target_platform == "osx-arm64"]
     - rust-std-aarch64-apple-darwin  # [target_platform == "osx-arm64"]
-    - {{ compiler('rust') }}    - cargo-bundle-licenses
+    - cargo-bundle-licenses
     - rust-std-wasm32-unknown-unknown
     # binaryen gives us wasm-opt, for optimizing the an .wasm file for speed and size
     - binaryen
