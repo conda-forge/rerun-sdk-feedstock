@@ -1,5 +1,5 @@
 {% set name = "rerun-sdk" %}
-{% set version = "0.17.0" %}
+{% set version = "0.18.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/rerun-io/rerun/archive/refs/tags/{{ version }}.tar.gz
-  sha256: f143bc9235588c5c6fd936bdab190d6c4b8d0bc2ca932bc44a3399ba5bc19e43
+  sha256: 5ebfd05c54e44ae864c9125bab9f846f780412c9e7a3645c6b617f922304c545
   # We cant build with wayland support on conda-forge
   # See: https://github.com/conda-forge/rerun-sdk-feedstock/issues/41
   patches:
@@ -29,7 +29,9 @@ requirements:
     - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
     - {{ compiler('rust') }}  # [target_platform != "osx-arm64"]
-    - rust  # [target_platform == "osx-arm64"]
+    # Workaround for https://github.com/rerun-io/rerun/issues/7216
+    # Use the same version specified in https://github.com/rerun-io/rerun/blob/0.18.0/rust-toolchain#L8
+    - rust 1.76.0  # [target_platform == "osx-arm64"]
     - rust-std-aarch64-apple-darwin  # [target_platform == "osx-arm64"]
     - cargo-bundle-licenses
     - rust-std-wasm32-unknown-unknown
