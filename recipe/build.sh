@@ -36,7 +36,7 @@ else
 fi
 
 # Build the rerun-cli and insert it into the python package
-cargo build --package rerun-cli $CROSS_TARGET --no-default-features --features native_viewer --release
+cargo build --package rerun-cli $CROSS_TARGET --no-default-features --features native_viewer,nasm --release
 cp target/$RUST_TARGET/release/rerun rerun_py/rerun_sdk/rerun_cli/rerun 
 
 # Build the rerun-web-viewer assets

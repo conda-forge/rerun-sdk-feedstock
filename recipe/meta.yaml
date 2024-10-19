@@ -14,7 +14,7 @@ source:
     - disable_wayland.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [py<38]
   entry_points:
     - rerun = rerun.__main__:main
@@ -38,6 +38,7 @@ requirements:
     # binaryen gives us wasm-opt, for optimizing the an .wasm file for speed and size
     - binaryen
     - nodejs >=20.12
+    - nasm
   host:
     - anywidget
     - hatch
