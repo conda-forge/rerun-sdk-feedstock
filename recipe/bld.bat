@@ -18,7 +18,7 @@ set PYTHONUTF8=1
 set PYTHONIOENCODING="UTF-8"
 
 REM Build the rerun-cli and insert it into the python package
-cargo build --package rerun-cli --no-default-features --features native_viewer,nasm --release
+cargo build --package rerun-cli --no-default-features --features release --release
 dir target
 dir target\release
 copy target\release\rerun.exe rerun_py\rerun_sdk\rerun_cli\rerun.exe
