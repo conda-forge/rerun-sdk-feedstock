@@ -17,14 +17,14 @@ REM Run the maturin build via pip
 set PYTHONUTF8=1
 set PYTHONIOENCODING="UTF-8"
 
+REM Build the rerun-web-viewer assets
+cargo run --locked -p re_dev_tools -- build-web-viewer --release -g
+
 REM Build the rerun-cli and insert it into the python package
 cargo build --package rerun-cli --no-default-features --features release --release
 dir target
 dir target\release
 copy target\release\rerun.exe rerun_py\rerun_sdk\rerun_cli\rerun.exe
-
-REM Build the rerun-web-viewer assets
-cargo run --locked -p re_dev_tools -- build-web-viewer --release -g
 
 set MATURIN_PEP517_ARGS=--features pypi
 %PYTHON% -m pip install rerun_py/ -vv

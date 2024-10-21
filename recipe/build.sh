@@ -35,12 +35,12 @@ else
     export CROSS_TARGET=""
 fi
 
+# Build the rerun-web-viewer assets
+cargo run --locked -p re_dev_tools -- build-web-viewer --release -g
+
 # Build the rerun-cli and insert it into the python package
 cargo build --package rerun-cli $CROSS_TARGET --no-default-features --features release --release
 cp target/$RUST_TARGET/release/rerun rerun_py/rerun_sdk/rerun_cli/rerun 
-
-# Build the rerun-web-viewer assets
-cargo run --locked -p re_dev_tools -- build-web-viewer --release -g
 
 # Run the maturin build via pip which works for direct and
 # cross-compiled builds.
