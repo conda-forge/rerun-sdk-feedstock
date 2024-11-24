@@ -14,7 +14,7 @@ source:
     - disable_wayland.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [py<38]
   entry_points:
     - rerun = rerun.__main__:main
