@@ -30,8 +30,8 @@ requirements:
     - {{ compiler('cxx') }}
     - {{ compiler('rust') }}  # [target_platform != "osx-arm64"]
     # Workaround for https://github.com/rerun-io/rerun/issues/7216
-    # Use the same version specified in https://github.com/rerun-io/rerun/blob/0.19.0/rust-toolchain#L8
-    - rust 1.79.0  # [target_platform == "osx-arm64"]
+    # Use the same version specified in https://github.com/rerun-io/rerun/blob/0.21.0/rust-toolchain#L8
+    - rust 1.80.0  # [target_platform == "osx-arm64"]
     - rust-std-aarch64-apple-darwin  # [target_platform == "osx-arm64"]
     - cargo-bundle-licenses
     - rust-std-wasm32-unknown-unknown
@@ -70,7 +70,7 @@ about:
   home: https://www.rerun.io/
   summary: Rerun is an SDK for logging computer vision and robotics data paired with a visualizer for exploring that data over time.
   description: |
-    Rerun is an SDK for logging computer vision and robotics data paired with a visualizer for exploring that data over time. 
+    Rerun is an SDK for logging computer vision and robotics data paired with a visualizer for exploring that data over time.
     It lets you debug and understand the internal state and data of your systems with minimal code.
   license: MIT OR Apache-2.0
   license_file:
