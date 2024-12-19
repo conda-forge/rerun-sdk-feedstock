@@ -29,9 +29,7 @@ requirements:
     - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
     - {{ compiler('rust') }}  # [target_platform != "osx-arm64"]
-    # Workaround for https://github.com/rerun-io/rerun/issues/7216
-    # Use the same version specified in https://github.com/rerun-io/rerun/blob/0.21.0/rust-toolchain#L8
-    - rust 1.80.0  # [target_platform == "osx-arm64"]
+    - rust {{ rust_compiler_version }}  # [target_platform == "osx-arm64"]
     - rust-std-aarch64-apple-darwin  # [target_platform == "osx-arm64"]
     - cargo-bundle-licenses
     - rust-std-wasm32-unknown-unknown
