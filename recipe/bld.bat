@@ -26,10 +26,17 @@ dir target
 dir target\release
 copy target\release\rerun.exe rerun_py\rerun_sdk\rerun_cli\rerun.exe
 
+REM Clean up cargo build artifacts
+cargo clean
+
 set MATURIN_PEP517_ARGS=--features pypi
 %PYTHON% -m pip install rerun_py/ -vv
 
 npm i yarn
 npx yarn install --cwd rerun_js
 npx yarn --cwd rerun_js/web-viewer run build
+
+REM Remove node_modules to free up space
+rd /s /q rerun_js\node_modules
+
 %PYTHON% -m pip install rerun_notebook/ -vv
