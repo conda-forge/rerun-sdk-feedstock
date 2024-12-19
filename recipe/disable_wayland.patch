@@ -1,12 +1,12 @@
 diff --git a/Cargo.toml b/Cargo.toml
-index 328f0fe043..ed44c08c1c 100644
+index ed2667f5c6..2c4beaa098 100644
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -81,7 +81,6 @@ eframe = { version = "0.27.2", default-features = false, features = [
+@@ -128,7 +128,6 @@ ecolor = "0.30.0"
+ eframe = { version = "0.30.0", default-features = false, features = [
    "accesskit",
    "default_fonts",
-   "puffin",
 -  "wayland",
    "x11",
  ] }
- egui = { version = "0.27.2", features = [
+ egui = { version = "0.30.0", features = [
