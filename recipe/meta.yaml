@@ -72,6 +72,8 @@ about:
   description: |
     Rerun is an SDK for logging computer vision and robotics data paired with a visualizer for exploring that data over time.
     It lets you debug and understand the internal state and data of your systems with minimal code.
+
+    Note: This conda package bundles both the functionality of the PyPI packages `rerun-sdk` and `rerun-notebook` as a single installable package.
   license: MIT OR Apache-2.0
   license_file:
     - THIRDPARTY.yml
