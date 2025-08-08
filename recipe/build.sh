@@ -27,6 +27,7 @@ case "$target_platform" in
         export RUST_TARGET="aarch64-apple-darwin"
         ;;
     "win-64")
+        export AR="${CONDA_PREFIX}/bin/llvm-ar"
         export RUST_TARGET="x86_64-pc-windows-msvc"
         ;;
 esac

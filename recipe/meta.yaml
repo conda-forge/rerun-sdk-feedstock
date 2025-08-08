@@ -41,6 +41,7 @@ requirements:
     - binaryen
     - nodejs >=20.12
     - nasm
+    - llvm-tools  # [win]
   host:
     - anywidget
     - hatch
