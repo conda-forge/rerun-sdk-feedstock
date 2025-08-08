@@ -12,6 +12,7 @@ export CONDA_BLD_PATH="${CONDA_BLD_PATH:-${MINIFORGE_HOME}/conda-bld}"
 
 ( startgroup "Provisioning base env with micromamba" ) 2> /dev/null
 MICROMAMBA_VERSION="1.5.10-0"
+export AR="${MINIFORGE_HOME}/bin/llvm-ar"
 if [[ "$(uname -m)" == "arm64" ]]; then
   osx_arch="osx-arm64"
 else

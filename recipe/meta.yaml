@@ -20,6 +20,8 @@ build:
   skip: true  # [ppc64le]
   entry_points:
     - rerun = rerun.__main__:main
+  script_env:
+    - AR  # [osx]
 
 requirements:
   build:
