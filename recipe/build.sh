@@ -19,11 +19,11 @@ case "$target_platform" in
         export RUST_TARGET="aarch64-unknown-linux-gnu"
         ;;
     "osx-64")
-        export AR="${MINIFORGE_HOME}/bin/llvm-ar"
+        export AR="${CONDA_PREFIX}/bin/llvm-ar"
         export RUST_TARGET="x86_64-apple-darwin"
         ;;
     "osx-arm64")
-        export AR="${MINIFORGE_HOME}/bin/llvm-ar"
+        export AR="${CONDA_PREFIX}/bin/llvm-ar"
         export RUST_TARGET="aarch64-apple-darwin"
         ;;
     "win-64")
