@@ -37,7 +37,7 @@ case "$target_platform" in
         export CFLAGS="-isystem $LIBCLANG_INCLUDE -resource-dir $CLANG_RESOURCE_DIR"
         export CC_wasm32_unknown_unknown="${CONDA_PREFIX}/bin/clang"
         # Since we clobber CFLAGS need to clobber CC as well
-        export CC ="${CONDA_PREFIX}/bin/clang"
+        export CC="${CONDA_PREFIX}/bin/clang"
         export RUST_TARGET="x86_64-apple-darwin"
         ;;
     "osx-arm64")
