@@ -30,6 +30,10 @@ case "$target_platform" in
         ;;
     "osx-64")
         CLANG_MAJOR_VERSION="19"
+        CLANG_RESOURCE_DIR="${CONDA_PREFIX}/lib/clang/$CLANG_MAJOR_VERSION"
+        # Use libclang's include directory which has the standard headers
+        LIBCLANG_INCLUDE="${CONDA_PREFIX}/lib/clang/$CLANG_MAJOR_VERSION/include"
+
         export AR="${CONDA_PREFIX}/bin/llvm-ar"
         export CFLAGS_wasm32_unknown_unknown="-isystem $LIBCLANG_INCLUDE -resource-dir $CLANG_RESOURCE_DIR"
         # Hmm it should use the target specific flags but it doesn't
