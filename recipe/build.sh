@@ -19,18 +19,18 @@ LIBCLANG_INCLUDE="${CONDA_PREFIX}/lib/clang/$CLANG_MAJOR_VERSION/include"
 
 case "$target_platform" in
     "linux-64")
-        export CFLAGS_wasm32_wasip1="-isystem $LIBCLANG_INCLUDE -resource-dir $CLANG_RESOURCE_DIR"
+        export CFLAGS_wasm32_unknown_unknown="-isystem $LIBCLANG_INCLUDE -resource-dir $CLANG_RESOURCE_DIR"
         export CC_wasm32_unknown_unknown="${CONDA_PREFIX}/bin/clang"
         export RUST_TARGET="x86_64-unknown-linux-gnu"
         ;;
     "linux-aarch64")
-        export CFLAGS_wasm32_wasip1="-isystem $LIBCLANG_INCLUDE -resource-dir $CLANG_RESOURCE_DIR"
+        export CFLAGS_wasm32_unknown_unknown="-isystem $LIBCLANG_INCLUDE -resource-dir $CLANG_RESOURCE_DIR"
         export CC_wasm32_unknown_unknown="${CONDA_PREFIX}/bin/clang"
         export RUST_TARGET="aarch64-unknown-linux-gnu"
         ;;
     "osx-64")
         export AR="${CONDA_PREFIX}/bin/llvm-ar"
-        export CFLAGS_wasm32_wasip1="-isystem $LIBCLANG_INCLUDE -resource-dir $CLANG_RESOURCE_DIR"
+        export CFLAGS_wasm32_unknown_unknown="-isystem $LIBCLANG_INCLUDE -resource-dir $CLANG_RESOURCE_DIR"
         export CC_wasm32_unknown_unknown="${CONDA_PREFIX}/bin/clang"
         export RUST_TARGET="x86_64-apple-darwin"
         ;;
