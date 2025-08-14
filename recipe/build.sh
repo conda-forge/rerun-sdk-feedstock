@@ -33,6 +33,8 @@ case "$target_platform" in
         export CFLAGS_wasm32_unknown_unknown="-isystem $LIBCLANG_INCLUDE -resource-dir $CLANG_RESOURCE_DIR"
         # Hmm it should use the target specific flags but it doesn't
         export TARGET_CFLAGS="-isystem $LIBCLANG_INCLUDE -resource-dir $CLANG_RESOURCE_DIR"
+        # This might impact performance, and break something else but is needed for ring wasm target
+        export CFLAGS="-isystem $LIBCLANG_INCLUDE -resource-dir $CLANG_RESOURCE_DIR"
         export CC_wasm32_unknown_unknown="${CONDA_PREFIX}/bin/clang"
         export RUST_TARGET="x86_64-apple-darwin"
         ;;
