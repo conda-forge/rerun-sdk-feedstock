@@ -11,19 +11,27 @@ cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
 # The CI environment variable means something specific to Rerun. Unset it.
 unset CI
 
+# TODO(nick): Parse Major version from clang instead of hardocoding it.
+CLANG_MAJOR_VERSION="16"
+CLANG_RESOURCE_DIR="${CONDA_PREFIX}/lib/clang/$CLANG_MAJOR_VERSION"
+# Use libclang's include directory which has the standard headers
+LIBCLANG_INCLUDE="${CONDA_PREFIX}/lib/clang/$CLANG_MAJOR_VERSION/include"
+
 case "$target_platform" in
     "linux-64")
-        export TARGET_CC="${CONDA_PREFIX}/bin/clang"
+        export CFLAGS_wasm32_wasip1="-isystem $LIBCLANG_INCLUDE -resource-dir $CLANG_RESOURCE_DIR"
+        export CC_wasm32_unknown_unknown="${CONDA_PREFIX}/bin/clang"
         export RUST_TARGET="x86_64-unknown-linux-gnu"
         ;;
     "linux-aarch64")
-        export TARGET_CC="${CONDA_PREFIX}/bin/clang"
+        export CFLAGS_wasm32_wasip1="-isystem $LIBCLANG_INCLUDE -resource-dir $CLANG_RESOURCE_DIR"
+        export CC_wasm32_unknown_unknown="${CONDA_PREFIX}/bin/clang"
         export RUST_TARGET="aarch64-unknown-linux-gnu"
         ;;
     "osx-64")
         export AR="${CONDA_PREFIX}/bin/llvm-ar"
-        export CC="${CONDA_PREFIX}/bin/clang"
-        export CXX="${CONDA_PREFIX}/bin/clang++"
+        export CFLAGS_wasm32_wasip1="-isystem $LIBCLANG_INCLUDE -resource-dir $CLANG_RESOURCE_DIR"
+        export CC_wasm32_unknown_unknown="${CONDA_PREFIX}/bin/clang"
         export RUST_TARGET="x86_64-apple-darwin"
         ;;
     "osx-arm64")
