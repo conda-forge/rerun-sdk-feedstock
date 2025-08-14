@@ -8,7 +8,8 @@ set "PYO3_PYTHON=%PYTHON%"
 REM The CI environment variable means something specific to Rerun. Unset it.
 set CI=
 set IS_IN_RERUN_WORKSPACE=no
-set "AR=%CONDA_PREFIX%\bin\llvm-ar.exe"
+::set "AR=%CONDA_PREFIX%\Library\bin\llvm-ar.exe"
+set AR=llvm-ar
 
 REM Bundle all downstream library licenses
 cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
