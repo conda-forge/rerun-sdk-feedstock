@@ -13,12 +13,17 @@ unset CI
 
 case "$target_platform" in
     "linux-64")
+        export TARGET_CC="${CONDA_PREFIX}/bin/clang"
         export RUST_TARGET="x86_64-unknown-linux-gnu"
         ;;
     "linux-aarch64")
+        export TARGET_CC="${CONDA_PREFIX}/bin/clang"
         export RUST_TARGET="aarch64-unknown-linux-gnu"
         ;;
     "osx-64")
+        export AR="${CONDA_PREFIX}/bin/llvm-ar"
+        export CC="${CONDA_PREFIX}/bin/clang"
+        export CXX="${CONDA_PREFIX}/bin/clang++"
         export RUST_TARGET="x86_64-apple-darwin"
         ;;
     "osx-arm64")

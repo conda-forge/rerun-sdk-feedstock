@@ -21,7 +21,7 @@ build:
   entry_points:
     - rerun = rerun.__main__:main
   script_env:
-    - AR  # [osx]
+    - AR
 
 requirements:
   build:
@@ -41,6 +41,7 @@ requirements:
     - binaryen
     - nodejs >=20.12
     - nasm
+    - clang == 16.0.6 # [linux]
     - llvm-tools  # [win]
   host:
     - anywidget
