@@ -29,6 +29,7 @@ case "$target_platform" in
         export RUST_TARGET="aarch64-unknown-linux-gnu"
         ;;
     "osx-64")
+        CLANG_MAJOR_VERSION="19"
         export AR="${CONDA_PREFIX}/bin/llvm-ar"
         export CFLAGS_wasm32_unknown_unknown="-isystem $LIBCLANG_INCLUDE -resource-dir $CLANG_RESOURCE_DIR"
         # Hmm it should use the target specific flags but it doesn't
