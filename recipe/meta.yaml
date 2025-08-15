@@ -41,7 +41,7 @@ requirements:
     - binaryen
     - nodejs >=20.12
     - nasm
-    - clang ==16.0.6  # [not osx]
+    - clang ==18.1.8  # [not osx]
   host:
     - anywidget
     - hatch
