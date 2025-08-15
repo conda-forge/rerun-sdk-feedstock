@@ -342,6 +342,7 @@ Feedstock Maintainers
 
 * [@jeongseok-meta](https://github.com/jeongseok-meta/)
 * [@jleibs](https://github.com/jleibs/)
+* [@ntjohnson1](https://github.com/ntjohnson1/)
 * [@ruben-arts](https://github.com/ruben-arts/)
 * [@traversaro](https://github.com/traversaro/)
 
