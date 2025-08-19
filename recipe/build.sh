@@ -12,7 +12,7 @@ cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
 unset CI
 
 # TODO(nick): Parse Major version from clang instead of hardocoding it.
-CLANG_MAJOR_VERSION="18"
+CLANG_MAJOR_VERSION="16"
 CLANG_RESOURCE_DIR="${CONDA_PREFIX}/lib/clang/$CLANG_MAJOR_VERSION"
 # Use libclang's include directory which has the standard headers
 LIBCLANG_INCLUDE="${CONDA_PREFIX}/lib/clang/$CLANG_MAJOR_VERSION/include"
