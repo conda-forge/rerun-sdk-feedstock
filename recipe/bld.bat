@@ -10,6 +10,23 @@ set CI=
 set IS_IN_RERUN_WORKSPACE=no
 ::set "AR=%CONDA_PREFIX%\Library\bin\llvm-ar.exe"
 set AR=llvm-ar
+
+REM Configure Rust to use conda-installed wasm32 target
+REM Try multiple possible locations where conda might install the target
+set WASM_TARGET_FOUND=0
+if exist "%CONDA_PREFIX%\Library\lib\rustlib\wasm32-unknown-unknown" (
+    echo Found wasm32 target in Library\lib\rustlib
+    set "RUST_TARGET_PATH=%CONDA_PREFIX%\Library\lib\rustlib"
+    set WASM_TARGET_FOUND=1
+) else if exist "%CONDA_PREFIX%\lib\rustlib\wasm32-unknown-unknown" (
+    echo Found wasm32 target in lib\rustlib
+    set "RUST_TARGET_PATH=%CONDA_PREFIX%\lib\rustlib"
+    set WASM_TARGET_FOUND=1
+) else (
+    echo Searching for wasm32 target in conda environment...
+    dir "%CONDA_PREFIX%" /s /b | findstr "wasm32-unknown-unknown" 2>nul
+    echo Warning: wasm32-unknown-unknown target not found in expected conda locations
+)
 set CLANG_MAJOR_VERSION=16
 set CLANG_RESOURCE_DIR=%CONDA_PREFIX%\Library\lib\clang\%CLANG_MAJOR_VERSION%
 set LIBCLANG_INCLUDE=%CONDA_PREFIX%\Library\lib\clang\%CLANG_MAJOR_VERSION%\include
