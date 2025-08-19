@@ -24,6 +24,7 @@ case "$target_platform" in
         # This might impact performance, and break something else but is needed for ring wasm target
         export CFLAGS="-isystem $LIBCLANG_INCLUDE -resource-dir $CLANG_RESOURCE_DIR"
         export CC="${CONDA_PREFIX}/bin/clang"
+        export CC_x86_64_unknown_linux_gnu="${CONDA_PREFIX}/bin/clang"
         export CFLAGS_wasm32_unknown_unknown="-isystem $LIBCLANG_INCLUDE -resource-dir $CLANG_RESOURCE_DIR"
         export CC_wasm32_unknown_unknown="${CONDA_PREFIX}/bin/clang"
         export RUST_TARGET="x86_64-unknown-linux-gnu"
