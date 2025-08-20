@@ -46,6 +46,7 @@ set RUST_BACKTRACE=1
 rustc --print target-list
 where rustc
 where cargo
+clang -print-targets
 cargo run --locked -p re_dev_tools -- build-web-viewer --release -g
 
 REM Build the rerun-cli and insert it into the python package
