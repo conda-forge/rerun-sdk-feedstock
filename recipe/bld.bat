@@ -42,6 +42,10 @@ set PYTHONUTF8=1
 set PYTHONIOENCODING="UTF-8"
 
 REM Build the rerun-web-viewer assets
+set RUST_BACKTRACE=1
+rustc --print target-list
+where rustc
+where cargo
 cargo run --locked -p re_dev_tools -- build-web-viewer --release -g
 
 REM Build the rerun-cli and insert it into the python package
