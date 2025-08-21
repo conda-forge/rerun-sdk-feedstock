@@ -42,7 +42,6 @@ requirements:
     - nodejs >=20.12
     - nasm
     - clang ==16.0.6  # [not osx]
-    - clang_win-64  # [win]
   host:
     - anywidget
     - hatch

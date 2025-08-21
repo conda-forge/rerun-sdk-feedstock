@@ -46,6 +46,7 @@ set RUST_BACKTRACE=1
 rustc --print target-list
 where rustc
 where cargo
+where clang
 clang -print-targets
 cargo run --locked -p re_dev_tools -- build-web-viewer --release -g
 
