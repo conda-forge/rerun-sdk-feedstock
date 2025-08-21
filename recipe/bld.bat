@@ -32,6 +32,7 @@ set CLANG_RESOURCE_DIR=%CONDA_PREFIX%\Library\lib\clang\%CLANG_MAJOR_VERSION%
 set LIBCLANG_INCLUDE=%CONDA_PREFIX%\Library\lib\clang\%CLANG_MAJOR_VERSION%\include
 set CFLAGS_wasm32_unknown_unknown=-isystem %LIBCLANG_INCLUDE% -resource-dir %CLANG_RESOURCE_DIR%
 set CC_wasm32_unknown_unknown=clang
+set PATH=%CONDA_PREFIX%\Library\bin;%PATH%
 
 REM Bundle all downstream library licenses
 cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
