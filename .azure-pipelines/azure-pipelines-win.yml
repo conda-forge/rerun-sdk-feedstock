@@ -24,13 +24,13 @@ jobs:
         CONFIG: win_64_python3.13.____cp313
         UPLOAD_PACKAGES: 'True'
         SHORT_CONFIG: win_64_python3.13.____cp313
-      win_64_python3.14.____cp314:
-        CONFIG: win_64_python3.14.____cp314
+      win_64_python3.9.____cpython:
+        CONFIG: win_64_python3.9.____cpython
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: win_64_python3.14.____cp314
+        SHORT_CONFIG: win_64_python3.9.____cpython
   timeoutInMinutes: 360
   variables:
-    CONDA_BLD_PATH: C:\\bld\\
+    CONDA_BLD_PATH: D:\\bld\\
     MINIFORGE_HOME: D:\Miniforge
     UPLOAD_TEMP: D:\\tmp
 
