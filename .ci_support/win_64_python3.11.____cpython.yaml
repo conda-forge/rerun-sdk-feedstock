@@ -20,3 +20,6 @@ rust_compiler_version:
 - 1.85.0
 target_platform:
 - win-64
+zip_keys:
+- - python
+  - channel_sources

@@ -14,12 +14,14 @@ source:
     - disable_wayland.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [py<38]
   # nodejs doesn't support ppc64le
   skip: true  # [ppc64le]
   entry_points:
     - rerun = rerun.__main__:main
+  script_env:
+    - AR
 
 requirements:
   build:
@@ -39,6 +41,7 @@ requirements:
     - binaryen
     - nodejs >=20.12
     - nasm
+    - clang ==16.0.6  # [not osx]
   host:
     - anywidget
     - hatch
@@ -85,6 +88,7 @@ about:
 
 extra:
   recipe-maintainers:
+    - ntjohnson1
     - jeongseok-meta
     - ruben-arts
     - jleibs
