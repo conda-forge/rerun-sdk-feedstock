@@ -56,6 +56,10 @@ case "$target_platform" in
         ;;
 esac
 
+# Need to disable stack-protector for wasm-bindgen
+export CFLAGS_wasm32_unknown_unknown="${CFLAGS_wasm32_unknown_unknown} -fno-stack-protector"
+export CXXFLAGS_wasm32_unknown_unknown="${CXXFLAGS_wasm32_unknown_unknown} -fno-stack-protector"
+
 if [[ $CONDA_BUILD_CROSS_COMPILATION == "1"  && $target_platform == "osx-arm64" ]]; then
     export CROSS_TARGET="--target aarch64-apple-darwin"
 else
