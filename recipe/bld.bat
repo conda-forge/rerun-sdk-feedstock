@@ -49,7 +49,7 @@ where rustc
 where cargo
 where clang
 clang -print-targets
-cargo run --locked -p re_dev_tools -- build-web-viewer --release -g
+cargo run --locked -p re_dev_tools -- build-web-viewer --no-default-features --features analytics,map_view --release -g
 
 REM Build the rerun-cli and insert it into the python package
 cargo build --package rerun-cli --no-default-features --features release_full --release
