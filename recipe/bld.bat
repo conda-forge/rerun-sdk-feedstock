@@ -30,8 +30,12 @@ if exist "%CONDA_PREFIX%\Library\lib\rustlib\wasm32-unknown-unknown" (
 set CLANG_MAJOR_VERSION=16
 set CLANG_RESOURCE_DIR=%CONDA_PREFIX%\Library\lib\clang\%CLANG_MAJOR_VERSION%
 set LIBCLANG_INCLUDE=%CONDA_PREFIX%\Library\lib\clang\%CLANG_MAJOR_VERSION%\include
-set CFLAGS_wasm32_unknown_unknown=-isystem %LIBCLANG_INCLUDE% -resource-dir %CLANG_RESOURCE_DIR%
+REM Add -fno-stack-protector to disable stack protection for WASM
+set CFLAGS_wasm32_unknown_unknown=-isystem %LIBCLANG_INCLUDE% -resource-dir %CLANG_RESOURCE_DIR% -fno-stack-protector
+set CXXFLAGS_wasm32_unknown_unknown=-fno-stack-protector
 set CC_wasm32_unknown_unknown=clang
+
+
 set PATH=%CONDA_PREFIX%\Library\bin;%PATH%
 
 REM Bundle all downstream library licenses
@@ -49,10 +53,10 @@ where rustc
 where cargo
 where clang
 clang -print-targets
-cargo run --locked -p re_dev_tools -- build-web-viewer --release -g
+cargo run --locked -p re_dev_tools -- build-web-viewer --no-default-features --features analytics,map_view --release -g
 
 REM Build the rerun-cli and insert it into the python package
-cargo build --package rerun-cli --no-default-features --features release --release
+cargo build --package rerun-cli --no-default-features --features release_full --release
 dir target
 dir target\release
 copy target\release\rerun.exe rerun_py\rerun_sdk\rerun_cli\rerun.exe

@@ -1,8 +1,9 @@
 # Needed for Metal, the hardware acceleration api for osx
+# Make sure this is in: https://github.com/alexey-lysiuk/macos-sdk/tags
 MACOSX_SDK_VERSION:        # [osx]
-  - "13.3"                 # [osx]
+  - "14.5"                 # [osx]
 
 # Workaround for https://github.com/rerun-io/rerun/issues/7216
 # Use the same version specified in https://github.com/rerun-io/rerun/blob/0.24.0/rust-toolchain#L8
 rust_compiler_version:
-  - 1.85.0
+  - 1.88.0
