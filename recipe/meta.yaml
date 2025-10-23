@@ -42,6 +42,8 @@ requirements:
     - nodejs >=20.12
     - nasm
     - clang ==16.0.6  # [not osx]
+    # needed to get protoc for to lance
+    - libprotobuf 
   host:
     - anywidget
     - hatch
