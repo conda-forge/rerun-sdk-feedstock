@@ -1,5 +1,5 @@
 {% set name = "rerun-sdk" %}
-{% set version = "0.26.1" %}
+{% set version = "0.26.2" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/rerun-io/rerun/archive/refs/tags/{{ version }}.tar.gz
-  sha256: 5a9b9fbe1eb1a75589890a372194c3b6e7e7b51f6c6547aba07d345ca9a49802
+  sha256: 23ccddc9ce0926e849c8ddbd5a321a8b2073571157348f0367cd36ebbcc0905f
   patches:
     # We cant build with wayland support on conda-forge
     # See: https://github.com/conda-forge/rerun-sdk-feedstock/issues/41
@@ -43,7 +43,7 @@ requirements:
     - nasm
     - clang ==16.0.6  # [not osx]
     # needed to get protoc for to lance
-    - libprotobuf 
+    - libprotobuf
   host:
     - anywidget
     - hatch
