@@ -14,7 +14,7 @@ source:
     - disable_wayland.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [py<38]
   # nodejs doesn't support ppc64le
   skip: true  # [ppc64le]
