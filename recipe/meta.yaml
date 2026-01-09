@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/rerun-io/rerun/archive/refs/tags/{{ version }}.tar.gz
-  sha256: 265305131008672c47108a50c5c290fe240667cc24b2ec0c9a4603211d7bf3bf
+  sha256: 2219adb75e7c608a2969cfbe866106ad6c23cd72c26a38116cfa4318842beae8
   patches:
     # We cant build with wayland support on conda-forge
     # See: https://github.com/conda-forge/rerun-sdk-feedstock/issues/41
