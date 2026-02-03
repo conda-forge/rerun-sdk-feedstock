@@ -66,6 +66,7 @@ else
     export CROSS_TARGET=""
 fi
 
+export PIXI_PROJECT_ROOT=$(pwd)
 "${PYTHON}" -m pip install rerun_pixi_env/
 ensure-pyo3-build-cfg
 

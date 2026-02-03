@@ -46,6 +46,7 @@ REM Run the maturin build via pip
 set PYTHONUTF8=1
 set PYTHONIOENCODING="UTF-8"
 
+set PIXI_PROJECT_ROOT=%CD%
 %PYTHON% -m pip install rerun_pixi_env/
 ensure-pyo3-build-cfg
 
