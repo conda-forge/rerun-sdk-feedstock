@@ -46,6 +46,9 @@ REM Run the maturin build via pip
 set PYTHONUTF8=1
 set PYTHONIOENCODING="UTF-8"
 
+%PYTHON% -m pip install rerun_pixi_env/
+ensure-pyo3-build-cfg
+
 REM Build the rerun-web-viewer assets
 set RUST_BACKTRACE=1
 rustc --print target-list
