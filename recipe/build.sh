@@ -66,6 +66,10 @@ else
     export CROSS_TARGET=""
 fi
 
+export PIXI_PROJECT_ROOT=$(pwd)
+"${PYTHON}" -m pip install rerun_pixi_env/
+ensure-pyo3-build-cfg
+
 # Build the rerun-web-viewer assets
 cargo run --locked -p re_dev_tools -- build-web-viewer --no-default-features --features analytics,map_view --release -g
 
