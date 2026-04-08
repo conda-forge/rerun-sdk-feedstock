@@ -1,5 +1,5 @@
 {% set name = "rerun-sdk" %}
-{% set version = "0.31.1" %}
+{% set version = "0.31.2" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/rerun-io/rerun/archive/refs/tags/{{ version }}.tar.gz
-  sha256: 14d3891074f37ba7f3153917396acf4bd3763a0e33f6a22c840c187e8a496e72
+  sha256: eaf17686cc837e9ad2f48bc0f7fa914b3e938e96993b6c4e84eca2acbc86abc1
   patches:
     # We cant build with wayland support on conda-forge
     # See: https://github.com/conda-forge/rerun-sdk-feedstock/issues/41
