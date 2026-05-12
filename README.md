@@ -341,6 +341,7 @@ Feedstock Maintainers
 =====================
 
 * [@abey79](https://github.com/abey79/)
+* [@aedm](https://github.com/aedm/)
 * [@jeongseok-meta](https://github.com/jeongseok-meta/)
 * [@jleibs](https://github.com/jleibs/)
 * [@ntjohnson1](https://github.com/ntjohnson1/)
