@@ -57,16 +57,10 @@ requirements:
     - anywidget
     - jupyter-ui-poll
     - numpy >=1.23
-    - pillow
-    - pyarrow >=14.0.2
-- attrs >=23.1.0
-- anywidget
-- jupyter-ui-poll
-- numpy >=1.23
-- pillow>=8.0.0
-- psutil>=7.0
-- pyarrow >=18.0.0
-- typing_extensions >=4.5
+    - pillow >=8.0.0
+    - psutil >=7.0
+    - pyarrow >=19.0.0
+    - typing_extensions >=4.5
 
 # TODO(jleibs): Would be nice to add this constraint, but it causes test to fail
 # to solve. Just live with the lack of constraint for now.
