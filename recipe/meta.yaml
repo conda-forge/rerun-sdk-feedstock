@@ -8,13 +8,9 @@ package:
 source:
   url: https://github.com/rerun-io/rerun/archive/refs/tags/{{ version }}.tar.gz
   sha256: db79ec0d6966807594d48b4f83936793ce2554db0cb4ccab78c9478e750b8f4e
-  patches:
-    # We cant build with wayland support on conda-forge
-    # See: https://github.com/conda-forge/rerun-sdk-feedstock/issues/41
-    - disable_wayland.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [py<38]
   # nodejs doesn't support ppc64le
   skip: true  # [ppc64le]
