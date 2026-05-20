@@ -1,5 +1,5 @@
 {% set name = "rerun-sdk" %}
-{% set version = "0.32.1" %}
+{% set version = "0.32.2" %}
 
 package:
   name: {{ name|lower }}
@@ -7,10 +7,10 @@ package:
 
 source:
   url: https://github.com/rerun-io/rerun/archive/refs/tags/{{ version }}.tar.gz
-  sha256: db79ec0d6966807594d48b4f83936793ce2554db0cb4ccab78c9478e750b8f4e
+  sha256: d756beb4bdfff9310bf0a1035ffa5f1b98bb04b4ce506f34f4989fcefc79ae7e
 
 build:
-  number: 1
+  number: 0
   skip: true  # [py<38]
   # nodejs doesn't support ppc64le
   skip: true  # [ppc64le]
