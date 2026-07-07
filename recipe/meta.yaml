@@ -10,7 +10,7 @@ source:
   sha256: fee9ec1a46e927e421eda5caec122aac2278d3d5ff24c2dbd9289f88bf318d59
 
 build:
-  number: 0
+  number: 1
   skip: true  # [py<38]
   # nodejs doesn't support ppc64le
   skip: true  # [ppc64le]
@@ -52,6 +52,7 @@ requirements:
     - attrs >=23.1.0
     - anywidget
     - jupyter-ui-poll
+    - ipykernel <7.0.0
     - numpy >=1.23
     - pillow >=8.0.0
     - psutil >=7.0
