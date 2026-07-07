@@ -27,6 +27,11 @@ case "$target_platform" in
         export CFLAGS_wasm32_unknown_unknown="-isystem $LIBCLANG_INCLUDE -resource-dir $CLANG_RESOURCE_DIR"
         export CC_wasm32_unknown_unknown="${CONDA_PREFIX}/bin/clang"
         export RUST_TARGET="aarch64-unknown-linux-gnu"
+        # libudev-sys' build script calls the Rust pkg-config crate, which
+        # refuses to run when host != target unless this is set. Needed so
+        # gilrs-core (gamepad support, new in 0.34.0) can find libudev when
+        # cross-compiling to aarch64.
+        export PKG_CONFIG_ALLOW_CROSS=1
         ;;
     "osx-64")
         CLANG_MAJOR_VERSION="19"

@@ -1,5 +1,4 @@
 azure:
-  free_disk_space: true
   settings_win:
     variables:
       CONDA_BLD_PATH: C:\\bld\\
@@ -19,3 +18,4 @@ provider:
 test: native_and_emulated
 workflow_settings:
   store_build_artifacts: true
+  free_disk_space: quick
