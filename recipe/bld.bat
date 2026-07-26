@@ -61,9 +61,15 @@ cargo run --locked -p re_dev_tools -- build-web-viewer --no-default-features --f
 
 REM Build the rerun-cli and insert it into the python package
 cargo build --package rerun-cli --no-default-features --features release_full --release
-dir target
-dir target\release
-copy target\release\rerun.exe rerun_py\rerun_sdk\rerun_cli\rerun.exe
+if errorlevel 1 exit 1
+REM Since rust_win-64 1.95, activation sets CARGO_BUILD_TARGET, which moves
+REM cargo output from target\release to target\%CARGO_BUILD_TARGET%\release
+if defined CARGO_BUILD_TARGET (
+    copy target\%CARGO_BUILD_TARGET%\release\rerun.exe rerun_py\rerun_sdk\rerun_cli\rerun.exe
+) else (
+    copy target\release\rerun.exe rerun_py\rerun_sdk\rerun_cli\rerun.exe
+)
+if errorlevel 1 exit 1
 
 REM Clean up cargo build artifacts
 cargo clean
