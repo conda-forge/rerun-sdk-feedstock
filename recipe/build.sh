@@ -11,21 +11,21 @@ cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
 # The CI environment variable means something specific to Rerun. Unset it.
 unset CI
 
-# TODO(nick): Parse Major version from clang instead of hardocoding it.
-CLANG_MAJOR_VERSION="16"
-CLANG_RESOURCE_DIR="${CONDA_PREFIX}/lib/clang/$CLANG_MAJOR_VERSION"
-# Use libclang's include directory which has the standard headers
-LIBCLANG_INCLUDE="${CONDA_PREFIX}/lib/clang/$CLANG_MAJOR_VERSION/include"
+# conda's compiler activation configures the native compiler and archiver.
+# Rust's cc crate gives target-qualified tool variables precedence, so keep the
+# LLVM toolchain scoped to the web viewer's WASM target. ring requires Clang for
+# wasm32, and llvm-ar avoids host-specific archives.
+export CC_wasm32_unknown_unknown="clang"
+export CXX_wasm32_unknown_unknown="clang++"
+export AR_wasm32_unknown_unknown="llvm-ar"
+export CFLAGS_wasm32_unknown_unknown="-fno-stack-protector"
+export CXXFLAGS_wasm32_unknown_unknown="-fno-stack-protector"
 
 case "$target_platform" in
     "linux-64")
-        export CFLAGS_wasm32_unknown_unknown="-isystem $LIBCLANG_INCLUDE -resource-dir $CLANG_RESOURCE_DIR"
-        export CC_wasm32_unknown_unknown="${CONDA_PREFIX}/bin/clang"
         export RUST_TARGET="x86_64-unknown-linux-gnu"
         ;;
     "linux-aarch64")
-        export CFLAGS_wasm32_unknown_unknown="-isystem $LIBCLANG_INCLUDE -resource-dir $CLANG_RESOURCE_DIR"
-        export CC_wasm32_unknown_unknown="${CONDA_PREFIX}/bin/clang"
         export RUST_TARGET="aarch64-unknown-linux-gnu"
         # libudev-sys' build script calls the Rust pkg-config crate, which
         # refuses to run when host != target unless this is set. Needed so
@@ -34,36 +34,15 @@ case "$target_platform" in
         export PKG_CONFIG_ALLOW_CROSS=1
         ;;
     "osx-64")
-        CLANG_MAJOR_VERSION="19"
-        CLANG_RESOURCE_DIR="${CONDA_PREFIX}/lib/clang/$CLANG_MAJOR_VERSION"
-        # Use libclang's include directory which has the standard headers
-        LIBCLANG_INCLUDE="${CONDA_PREFIX}/lib/clang/$CLANG_MAJOR_VERSION/include"
-
-        export AR="${CONDA_PREFIX}/bin/llvm-ar"
-        export CFLAGS_wasm32_unknown_unknown="-isystem $LIBCLANG_INCLUDE -resource-dir $CLANG_RESOURCE_DIR"
-        # Hmm it should use the target specific flags but it doesn't
-        export TARGET_CFLAGS="-isystem $LIBCLANG_INCLUDE -resource-dir $CLANG_RESOURCE_DIR"
-        # This might impact performance, and break something else but is needed for ring wasm target
-        export CFLAGS="-isystem $LIBCLANG_INCLUDE -resource-dir $CLANG_RESOURCE_DIR"
-        export CC_wasm32_unknown_unknown="${CONDA_PREFIX}/bin/clang"
-        # Since we clobber CFLAGS need to clobber CC as well
-        export CC="${CONDA_PREFIX}/bin/clang"
-        export CC_x86_64_apple_darwin="${CONDA_PREFIX}/bin/clang"
         export RUST_TARGET="x86_64-apple-darwin"
         ;;
     "osx-arm64")
-        export AR="${CONDA_PREFIX}/bin/llvm-ar"
         export RUST_TARGET="aarch64-apple-darwin"
         ;;
     "win-64")
-        export AR="${CONDA_PREFIX}/bin/llvm-ar"
         export RUST_TARGET="x86_64-pc-windows-msvc"
         ;;
 esac
-
-# Need to disable stack-protector for wasm-bindgen
-export CFLAGS_wasm32_unknown_unknown="${CFLAGS_wasm32_unknown_unknown} -fno-stack-protector"
-export CXXFLAGS_wasm32_unknown_unknown="${CXXFLAGS_wasm32_unknown_unknown} -fno-stack-protector"
 
 if [[ $CONDA_BUILD_CROSS_COMPILATION == "1"  && $target_platform == "osx-arm64" ]]; then
     export CROSS_TARGET="--target aarch64-apple-darwin"
@@ -75,8 +54,14 @@ export PIXI_PROJECT_ROOT=$(pwd)
 "${PYTHON}" -m pip install rerun_pixi_env/
 ensure-pyo3-build-cfg
 
-# Build the rerun-web-viewer assets
-cargo run --locked -p re_dev_tools -- build-web-viewer --no-default-features --features analytics,map_view --release -g
+# Build the rerun-web-viewer assets. cc-rs appends target-specific flags to
+# generic flags, so clear conda's native flags only for this WASM build. The
+# subshell restores them before the native CLI and Python extension are built.
+(
+    unset CFLAGS CXXFLAGS CPPFLAGS
+    unset TARGET_CFLAGS TARGET_CXXFLAGS TARGET_CPPFLAGS
+    cargo run --locked -p re_dev_tools -- build-web-viewer --no-default-features --features analytics,map_view --release -g
+)
 
 # Build the rerun-cli and insert it into the python package
 cargo build --package rerun-cli $CROSS_TARGET --no-default-features --features release_full --release

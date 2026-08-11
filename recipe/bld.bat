@@ -8,8 +8,16 @@ set "PYO3_PYTHON=%PYTHON%"
 REM The CI environment variable means something specific to Rerun. Unset it.
 set CI=
 set IS_IN_RERUN_WORKSPACE=no
-::set "AR=%CONDA_PREFIX%\Library\bin\llvm-ar.exe"
-set AR=llvm-ar
+
+REM conda's compiler activation configures the native compiler and archiver.
+REM Rust's cc crate gives target-qualified tool variables precedence, so keep the
+REM LLVM toolchain scoped to the web viewer's WASM target. ring requires Clang for
+REM wasm32, and llvm-ar avoids host-specific archives.
+set "CC_wasm32_unknown_unknown=clang"
+set "CXX_wasm32_unknown_unknown=clang++"
+set "AR_wasm32_unknown_unknown=llvm-ar"
+set "CFLAGS_wasm32_unknown_unknown=-fno-stack-protector"
+set "CXXFLAGS_wasm32_unknown_unknown=-fno-stack-protector"
 
 REM Configure Rust to use conda-installed wasm32 target
 REM Try multiple possible locations where conda might install the target
@@ -27,16 +35,6 @@ if exist "%CONDA_PREFIX%\Library\lib\rustlib\wasm32-unknown-unknown" (
     dir "%CONDA_PREFIX%" /s /b | findstr "wasm32-unknown-unknown" 2>nul
     echo Warning: wasm32-unknown-unknown target not found in expected conda locations
 )
-set CLANG_MAJOR_VERSION=16
-set CLANG_RESOURCE_DIR=%CONDA_PREFIX%\Library\lib\clang\%CLANG_MAJOR_VERSION%
-set LIBCLANG_INCLUDE=%CONDA_PREFIX%\Library\lib\clang\%CLANG_MAJOR_VERSION%\include
-REM Add -fno-stack-protector to disable stack protection for WASM
-set CFLAGS_wasm32_unknown_unknown=-isystem %LIBCLANG_INCLUDE% -resource-dir %CLANG_RESOURCE_DIR% -fno-stack-protector
-set CXXFLAGS_wasm32_unknown_unknown=-fno-stack-protector
-set CC_wasm32_unknown_unknown=clang
-
-
-set PATH=%CONDA_PREFIX%\Library\bin;%PATH%
 
 REM Bundle all downstream library licenses
 cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
@@ -52,12 +50,22 @@ ensure-pyo3-build-cfg
 
 REM Build the rerun-web-viewer assets
 set RUST_BACKTRACE=1
-rustc --print target-list
-where rustc
-where cargo
-where clang
-clang -print-targets
+REM cc-rs appends target-specific flags to generic flags, so clear conda's
+REM native flags only for this WASM build. setlocal restores them before the
+REM native CLI and Python extension are built.
+setlocal
+set "CFLAGS="
+set "CXXFLAGS="
+set "CPPFLAGS="
+set "TARGET_CFLAGS="
+set "TARGET_CXXFLAGS="
+set "TARGET_CPPFLAGS="
 cargo run --locked -p re_dev_tools -- build-web-viewer --no-default-features --features analytics,map_view --release -g
+if errorlevel 1 (
+    endlocal
+    exit /b 1
+)
+endlocal
 
 REM Build the rerun-cli and insert it into the python package
 cargo build --package rerun-cli --no-default-features --features release_full --release
