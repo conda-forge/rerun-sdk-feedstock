@@ -87,7 +87,22 @@ set MATURIN_PEP517_ARGS=--features pypi
 
 npm i yarn
 npx yarn install --cwd rerun_js
+
+REM The JavaScript package build invokes Cargo for WASM a second time, so it
+REM must not inherit conda's native C/C++ flags either.
+setlocal
+set "CFLAGS="
+set "CXXFLAGS="
+set "CPPFLAGS="
+set "TARGET_CFLAGS="
+set "TARGET_CXXFLAGS="
+set "TARGET_CPPFLAGS="
 npx yarn --cwd rerun_js/web-viewer run build
+if errorlevel 1 (
+    endlocal
+    exit /b 1
+)
+endlocal
 
 REM Remove node_modules to free up space
 rd /s /q rerun_js\node_modules

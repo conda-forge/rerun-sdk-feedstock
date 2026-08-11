@@ -54,14 +54,20 @@ export PIXI_PROJECT_ROOT=$(pwd)
 "${PYTHON}" -m pip install rerun_pixi_env/
 ensure-pyo3-build-cfg
 
-# Build the rerun-web-viewer assets. cc-rs appends target-specific flags to
-# generic flags, so clear conda's native flags only for this WASM build. The
-# subshell restores them before the native CLI and Python extension are built.
-(
-    unset CFLAGS CXXFLAGS CPPFLAGS
-    unset TARGET_CFLAGS TARGET_CXXFLAGS TARGET_CPPFLAGS
-    cargo run --locked -p re_dev_tools -- build-web-viewer --no-default-features --features analytics,map_view --release -g
-)
+# cc-rs appends target-specific flags to generic flags. Clear conda's native
+# flags for every WASM build so options such as -march and -isystem are not
+# passed to clang --target=wasm32-unknown-unknown. Each subshell restores the
+# flags before the native CLI and Python extension are built.
+run_wasm_build() {
+    (
+        unset CFLAGS CXXFLAGS CPPFLAGS
+        unset TARGET_CFLAGS TARGET_CXXFLAGS TARGET_CPPFLAGS
+        "$@"
+    )
+}
+
+# Build the rerun-web-viewer assets.
+run_wasm_build cargo run --locked -p re_dev_tools -- build-web-viewer --no-default-features --features analytics,map_view --release -g
 
 # Build the rerun-cli and insert it into the python package
 cargo build --package rerun-cli $CROSS_TARGET --no-default-features --features release_full --release
@@ -73,5 +79,6 @@ MATURIN_PEP517_ARGS="$CROSS_TARGET --features pypi" "${PYTHON}" -m pip install r
 
 npm i yarn
 npx yarn install --cwd rerun_js
-npx yarn --cwd rerun_js/web-viewer run build
+# The JavaScript package build invokes Cargo for WASM a second time.
+run_wasm_build npx yarn --cwd rerun_js/web-viewer run build
 "${PYTHON}" -m pip install rerun_notebook/ -vv
