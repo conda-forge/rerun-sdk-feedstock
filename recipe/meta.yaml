@@ -39,8 +39,8 @@ requirements:
     - binaryen
     - nodejs >=20.12
     - nasm
-    # The web viewer cross-compiles ring's C sources to wasm32. The build
-    # scripts scope these tools to that target so native compilers are intact.
+    # The web viewer cross-compiles native dependencies to wasm32. The build
+    # scripts scope these tools to that target so host compilers stay intact.
     - clang
     - llvm-tools
     # needed to get protoc for to lance

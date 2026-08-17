@@ -13,13 +13,11 @@ unset CI
 
 # conda's compiler activation configures the native compiler and archiver.
 # Rust's cc crate gives target-qualified tool variables precedence, so keep the
-# LLVM toolchain scoped to the web viewer's WASM target. ring requires Clang for
-# wasm32, and llvm-ar avoids host-specific archives.
+# LLVM toolchain scoped to the web viewer's WASM target. Clang compiles native
+# sources for wasm32, and llvm-ar avoids host-specific archives.
 export CC_wasm32_unknown_unknown="clang"
 export CXX_wasm32_unknown_unknown="clang++"
 export AR_wasm32_unknown_unknown="llvm-ar"
-export CFLAGS_wasm32_unknown_unknown="-fno-stack-protector"
-export CXXFLAGS_wasm32_unknown_unknown="-fno-stack-protector"
 
 case "$target_platform" in
     "linux-64")

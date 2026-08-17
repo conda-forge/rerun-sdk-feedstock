@@ -11,13 +11,11 @@ set IS_IN_RERUN_WORKSPACE=no
 
 REM conda's compiler activation configures the native compiler and archiver.
 REM Rust's cc crate gives target-qualified tool variables precedence, so keep the
-REM LLVM toolchain scoped to the web viewer's WASM target. ring requires Clang for
-REM wasm32, and llvm-ar avoids host-specific archives.
+REM LLVM toolchain scoped to the web viewer's WASM target. Clang compiles native
+REM sources for wasm32, and llvm-ar avoids host-specific archives.
 set "CC_wasm32_unknown_unknown=clang"
 set "CXX_wasm32_unknown_unknown=clang++"
 set "AR_wasm32_unknown_unknown=llvm-ar"
-set "CFLAGS_wasm32_unknown_unknown=-fno-stack-protector"
-set "CXXFLAGS_wasm32_unknown_unknown=-fno-stack-protector"
 
 REM Configure Rust to use conda-installed wasm32 target
 REM Try multiple possible locations where conda might install the target
