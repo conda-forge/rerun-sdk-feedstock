@@ -16,8 +16,6 @@ build:
   skip: true  # [ppc64le]
   entry_points:
     - rerun = rerun.__main__:main
-  script_env:
-    - AR
   # gilrs (gamepad support, new in rerun 0.34.0) links the always-present
   # WinRT API-set umbrella DLL, which conda-build's overlinking check flags
   missing_dso_whitelist:
@@ -41,7 +39,10 @@ requirements:
     - binaryen
     - nodejs >=20.12
     - nasm
-    - clang ==16.0.6  # [not osx]
+    # The web viewer cross-compiles native dependencies to wasm32. The build
+    # scripts scope these tools to that target so host compilers stay intact.
+    - clang
+    - llvm-tools
     # needed to get protoc for to lance
     - libprotobuf
     # gilrs (gamepad support, new in rerun 0.34.0) uses libudev-sys on linux,
