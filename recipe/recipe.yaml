@@ -1,41 +1,60 @@
-{% set name = "rerun-sdk" %}
-{% set version = "0.36.0" %}
+schema_version: 1
+
+context:
+  name: rerun-sdk
+  version: "0.36.0"
+  build_number: 1
 
 package:
-  name: {{ name|lower }}
-  version: {{ version }}
+  name: ${{ name|lower }}
+  version: ${{ version }}
 
 source:
-  url: https://github.com/rerun-io/rerun/archive/refs/tags/{{ version }}.tar.gz
+  url: https://github.com/rerun-io/rerun/archive/refs/tags/${{ version }}.tar.gz
   sha256: ccdabd90c7f6725c6ffd8b9a1fc1537815d514a48b2ce97eb15d2d783091de6f
 
 build:
-  number: 0
-  skip: true  # [py<38]
-  # nodejs doesn't support ppc64le
-  skip: true  # [ppc64le]
-  entry_points:
-    - rerun = rerun.__main__:main
+  number: ${{ build_number }}
+  skip:
+    - match(python, "<3.8")
+    # Remove when the Node.js dependency is available on linux-ppc64le:
+    # https://github.com/conda-forge/nodejs-feedstock/issues/441
+    - ppc64le
+  script:
+    - if: win
+      then: call "%RECIPE_DIR%\\build.bat"
+    - if: unix
+      then: bash "${RECIPE_DIR}/build.sh"
+  python:
+    entry_points:
+      - rerun = rerun.__main__:main
   # gilrs (gamepad support, new in rerun 0.34.0) links the always-present
-  # WinRT API-set umbrella DLL, which conda-build's overlinking check flags
-  missing_dso_whitelist:
-    - '*/api-ms-win-core-winrt-l1-1-0.dll'  # [win]
+  # WinRT API-set umbrella DLL, which the overlinking check flags.
+  dynamic_linking:
+    missing_dso_allowlist:
+      - if: win
+        then: "*/api-ms-win-core-winrt-l1-1-0.dll"
 
 requirements:
   build:
-    - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-    - crossenv                               # [build_platform != target_platform]
-    - python                                 # [build_platform != target_platform]
-    - maturin >=1.3.0                        # [build_platform != target_platform]
-    - {{ compiler('c') }}
-    - {{ stdlib("c") }}
-    - {{ compiler('cxx') }}
-    - {{ compiler('rust') }}  # [target_platform != "osx-arm64"]
-    - rust {{ rust_compiler_version }}  # [target_platform == "osx-arm64"]
-    - rust-std-aarch64-apple-darwin  # [target_platform == "osx-arm64"]
+    - if: build_platform != target_platform
+      then:
+        - cross-python_${{ target_platform }}
+        - crossenv
+        - python
+        - maturin >=1.3.0
+    - ${{ compiler("c") }}
+    - ${{ stdlib("c") }}
+    - ${{ compiler("cxx") }}
+    - if: target_platform != "osx-arm64"
+      then: ${{ compiler("rust") }}
+    - if: target_platform == "osx-arm64"
+      then:
+        - rust ==${{ rust_compiler_version }}
+        - rust-std-aarch64-apple-darwin
     - cargo-bundle-licenses
     - rust-std-wasm32-unknown-unknown
-    # binaryen gives us wasm-opt, for optimizing the an .wasm file for speed and size
+    # binaryen provides wasm-opt for optimizing the .wasm file.
     - binaryen
     - nodejs >=20.12
     - nasm
@@ -43,11 +62,11 @@ requirements:
     # scripts scope these tools to that target so host compilers stay intact.
     - clang
     - llvm-tools
-    # needed to get protoc for to lance
+    # Needed to provide protoc for Lance.
     - libprotobuf
-    # gilrs (gamepad support, new in rerun 0.34.0) uses libudev-sys on linux,
-    # which shells out to pkg-config at build time
-    - pkg-config  # [linux]
+    # gilrs uses libudev-sys on Linux, whose build script calls pkg-config.
+    - if: linux
+      then: pkg-config
   host:
     - anywidget
     - hatch
@@ -55,12 +74,11 @@ requirements:
     - python
     - pip
     - maturin >=1.3.0
-    # provides libudev.pc / the udev library that gilrs-core links against.
-    # Cap below 258: libudev 258+ is built against glibc 2.34, but this
-    # feedstock builds against the c_stdlib 2.17 sysroot, so linking a
-    # 2.34 libudev.so fails the --no-allow-shlib-undefined check. 257.x
-    # is the newest series still built against glibc 2.17.
-    - libudev <258  # [linux]
+    # Provides libudev.pc and the udev library that gilrs-core links against.
+    # Keep below 258: libudev 258+ targets glibc 2.34, while this feedstock
+    # builds against the c_stdlib 2.17 sysroot.
+    - if: linux
+      then: libudev <258
   run:
     - python
     - attrs >=23.1.0
@@ -73,18 +91,26 @@ requirements:
     - pyarrow >=18.0.0
     - typing_extensions >=4.5
 
-# TODO(jleibs): Would be nice to add this constraint, but it causes test to fail
-# to solve. Just live with the lack of constraint for now.
-#
-# run_constrained:
-#   - __glibc >=2.27                                        # [linux]
+  # TODO(jleibs): It would be useful to add this constraint, but it currently
+  # makes the test environment unsatisfiable.
+  #
+  # run_constraints:
+  #   - __glibc >=2.27
 
-test:
-  requires:
-    - packaging
+tests:
+  - script:
+      - python run_test.py
+    files:
+      recipe:
+        - run_test.py
+    requirements:
+      run:
+        - packaging
 
 about:
-  home: https://www.rerun.io/
+  homepage: https://www.rerun.io/
+  repository: https://github.com/rerun-io/rerun
+  documentation: https://www.rerun.io/docs
   summary: Rerun is an SDK for logging computer vision and robotics data paired with a visualizer for exploring that data over time.
   description: |
     Rerun is an SDK for logging computer vision and robotics data paired with a visualizer for exploring that data over time.
@@ -97,10 +123,8 @@ about:
     - LICENSE-MIT
     - LICENSE-APACHE
 
-  doc_url: https://www.rerun.io/docs
-  dev_url: https://github.com/rerun-io/rerun
-
 extra:
+  feedstock-name: rerun-sdk
   recipe-maintainers:
     - oxkitsune
     - aedm
