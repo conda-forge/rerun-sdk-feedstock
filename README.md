@@ -13,11 +13,9 @@ Development: https://github.com/rerun-io/rerun
 
 Documentation: https://www.rerun.io/docs
 
-Rerun is an SDK for logging computer vision and robotics data paired with a visualizer for exploring that data over time.
-It lets you debug and understand the internal state and data of your systems with minimal code.
+The Rerun SDK provides data primitives to build, understand, and improve your data loop. Designed for multi-rate, multimodal data, from the first recording to massive scale.
 
 Note: This conda package bundles both the functionality of the PyPI packages `rerun-sdk` and `rerun-notebook` as a single installable package.
-
 
 Current build status
 ====================

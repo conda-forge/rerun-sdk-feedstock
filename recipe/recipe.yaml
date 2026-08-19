@@ -1,0 +1,134 @@
+schema_version: 1
+
+context:
+  name: rerun-sdk
+  version: "0.36.1"
+  build_number: 0
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://github.com/rerun-io/rerun/archive/refs/tags/${{ version }}.tar.gz
+  sha256: cb285485f8d1098c1ec8ba13e89918e8a2128c9396e6832a93505aa3b402a4e7
+
+build:
+  number: ${{ build_number }}
+  skip:
+    # Remove when the Node.js dependency is available on linux-ppc64le:
+    # https://github.com/conda-forge/nodejs-feedstock/issues/441
+    - ppc64le
+  script:
+    - if: win
+      then: call "%RECIPE_DIR%\\build.bat"
+    - if: unix
+      then: bash "${RECIPE_DIR}/build.sh"
+  python:
+    entry_points:
+      - rerun = rerun.__main__:main
+  # gilrs (gamepad support, new in rerun 0.34.0) links the always-present
+  # WinRT API-set umbrella DLL, which the overlinking check flags.
+  dynamic_linking:
+    missing_dso_allowlist:
+      - if: win
+        then: "*/api-ms-win-core-winrt-l1-1-0.dll"
+
+requirements:
+  build:
+    - if: build_platform != target_platform
+      then:
+        - cross-python_${{ target_platform }}
+        - crossenv
+        - python
+        - maturin >=1.3.0
+    - ${{ compiler("c") }}
+    - ${{ stdlib("c") }}
+    - ${{ compiler("cxx") }}
+    - if: target_platform != "osx-arm64"
+      then: ${{ compiler("rust") }}
+    - if: target_platform == "osx-arm64"
+      then:
+        - rust ==${{ rust_compiler_version }}
+        - rust-std-aarch64-apple-darwin
+    - cargo-bundle-licenses
+    - rust-std-wasm32-unknown-unknown
+    # binaryen provides wasm-opt for optimizing the .wasm file.
+    - binaryen
+    - nodejs >=20.12
+    - nasm
+    # The web viewer cross-compiles native dependencies to wasm32. The build
+    # scripts scope these tools to that target so host compilers stay intact.
+    - clang
+    - llvm-tools
+    # Needed to provide protoc for Lance.
+    - libprotobuf
+    # gilrs uses libudev-sys on Linux, whose build script calls pkg-config.
+    - if: linux
+      then: pkg-config
+  host:
+    - anywidget
+    - hatch
+    - hatch-jupyter-builder
+    - python
+    - pip
+    - maturin >=1.3.0
+    # Provides libudev.pc and the udev library that gilrs-core links against.
+    # Keep below 258: libudev 258+ targets glibc 2.34, while this feedstock
+    # builds against the c_stdlib 2.17 sysroot.
+    - if: linux
+      then: libudev <258
+  run:
+    - python
+    - attrs >=23.1.0
+    - anywidget
+    - jupyter-ui-poll
+    - ipykernel <7.0.0
+    - numpy >=1.23
+    - pillow >=8.0.0
+    - psutil >=7.0
+    - pyarrow >=18.0.0
+    - typing_extensions >=4.5
+
+  # TODO(jleibs): It would be useful to add this constraint, but it currently
+  # makes the test environment unsatisfiable.
+  #
+  # run_constraints:
+  #   - __glibc >=2.27
+
+tests:
+  - script:
+      - python run_test.py
+    files:
+      recipe:
+        - run_test.py
+    requirements:
+      run:
+        - packaging
+
+about:
+  homepage: https://www.rerun.io/
+  repository: https://github.com/rerun-io/rerun
+  documentation: https://www.rerun.io/docs
+  summary: Rerun is an SDK for logging computer vision and robotics data paired with a visualizer for exploring that data over time.
+  description: |
+    The Rerun SDK provides data primitives to build, understand, and improve your data loop. Designed for multi-rate, multimodal data, from the first recording to massive scale.
+
+    Note: This conda package bundles both the functionality of the PyPI packages `rerun-sdk` and `rerun-notebook` as a single installable package.
+  license: MIT OR Apache-2.0
+  license_file:
+    - THIRDPARTY.yml
+    - LICENSE-MIT
+    - LICENSE-APACHE
+
+extra:
+  feedstock-name: rerun-sdk
+  recipe-maintainers:
+    - oxkitsune
+    - aedm
+    - abey79
+    - ntjohnson1
+    - jeongseok-meta
+    - ruben-arts
+    - jleibs
+    - traversaro
