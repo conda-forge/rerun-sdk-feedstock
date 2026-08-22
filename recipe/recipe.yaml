@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   name: rerun-sdk
-  version: "0.36.1"
+  version: "0.36.2"
   build_number: 0
 
 package:
@@ -11,7 +11,7 @@ package:
 
 source:
   url: https://github.com/rerun-io/rerun/archive/refs/tags/${{ version }}.tar.gz
-  sha256: cb285485f8d1098c1ec8ba13e89918e8a2128c9396e6832a93505aa3b402a4e7
+  sha256: 8e53f2791c4da106aec9fd905bb3ae150d3d711bde41d88c619a8c6913545eb5
 
 build:
   number: ${{ build_number }}
@@ -47,8 +47,7 @@ requirements:
     - ${{ compiler("cxx") }}
     - if: target_platform != "osx-arm64"
       then: ${{ compiler("rust") }}
-    - if: target_platform == "osx-arm64"
-      then:
+      else:
         - rust ==${{ rust_compiler_version }}
         - rust-std-aarch64-apple-darwin
     - cargo-bundle-licenses
