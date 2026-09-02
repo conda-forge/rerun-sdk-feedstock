@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   name: rerun-sdk
-  version: "0.36.3"
+  version: "0.37.0"
   build_number: 0
 
 package:
@@ -11,7 +11,7 @@ package:
 
 source:
   url: https://github.com/rerun-io/rerun/archive/refs/tags/${{ version }}.tar.gz
-  sha256: d1bd631ad18b3f099fa39abf101b01c67baf1164c4ae149d6611ac3b6febb5c0
+  sha256: bc585df3a55f8cc35fe33e22413f17bfc7db90cdcfedb7874fa44dac93ed7f3a
 
 build:
   number: ${{ build_number }}
@@ -54,7 +54,9 @@ requirements:
     - rust-std-wasm32-unknown-unknown
     # binaryen provides wasm-opt for optimizing the .wasm file.
     - binaryen
-    - nodejs >=20.12
+    # The conda package for Node.js 26.8.0 identifies itself as a prerelease,
+    # which Yarn's dependency engine checks reject during the web viewer build.
+    - nodejs >=20.12,!=26.8.0
     - nasm
     # The web viewer cross-compiles native dependencies to wasm32. The build
     # scripts scope these tools to that target so host compilers stay intact.
