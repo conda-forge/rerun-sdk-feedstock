@@ -3,7 +3,7 @@ schema_version: 1
 context:
   name: rerun-sdk
   version: "0.37.0"
-  build_number: 0
+  build_number: 1
 
 package:
   name: ${{ name|lower }}
@@ -84,8 +84,8 @@ requirements:
     - attrs >=23.1.0
     - anywidget
     - jupyter-ui-poll
-    - ipykernel <7.0.0
-    - numpy >=1.23
+    - ipykernel !=7.0.*
+    - numpy >=2
     - pillow >=8.0.0
     - psutil >=7.0
     - pyarrow >=18.0.0
