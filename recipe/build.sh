@@ -51,6 +51,9 @@ fi
 export PIXI_PROJECT_ROOT=$(pwd)
 "${PYTHON}" -m pip install rerun_pixi_env/
 ensure-pyo3-build-cfg
+# rerun_pixi_env is only needed to generate pyo3-build.cfg. Remove it so its
+# helper scripts are not shipped in the package.
+"${PYTHON}" -m pip uninstall -y rerun_pixi_env
 
 # cc-rs appends target-specific flags to generic flags. Clear conda's native
 # flags for every WASM build so options such as -march and -isystem are not

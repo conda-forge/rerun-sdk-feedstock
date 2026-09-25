@@ -3,7 +3,7 @@ schema_version: 1
 context:
   name: rerun-sdk
   version: "0.38.1"
-  build_number: 0
+  build_number: 1
 
 package:
   name: ${{ name|lower }}
@@ -25,8 +25,10 @@ build:
     - if: unix
       then: bash "${RECIPE_DIR}/build.sh"
   python:
+    # Match the PyPI wheel's entry point. `rerun.__main__` imports the full SDK,
+    # which fails when the SDK spawns the viewer with RERUN_APP_ONLY=true.
     entry_points:
-      - rerun = rerun.__main__:main
+      - rerun = rerun_cli.__main__:main
   # gilrs (gamepad support, new in rerun 0.34.0) links the always-present
   # WinRT API-set umbrella DLL, which the overlinking check flags.
   dynamic_linking:

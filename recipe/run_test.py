@@ -1,3 +1,4 @@
+import os
 import platform
 import subprocess
 
@@ -18,6 +19,14 @@ def main():
 
     # Verify we can run rerun as an executable
     subprocess.run(["rerun", "--version"], check=True)
+
+    # `rr.spawn()` launches the viewer with RERUN_APP_ONLY=true, which limits
+    # what the bindings register. The `rerun` entry point must still start.
+    subprocess.run(
+        ["rerun", "--version"],
+        check=True,
+        env={**os.environ, "RERUN_APP_ONLY": "true"},
+    )
 
 if __name__ == '__main__':
     main()

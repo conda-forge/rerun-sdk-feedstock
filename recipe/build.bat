@@ -45,6 +45,11 @@ set PYTHONIOENCODING="UTF-8"
 set PIXI_PROJECT_ROOT=%CD%
 %PYTHON% -m pip install rerun_pixi_env/
 ensure-pyo3-build-cfg
+if errorlevel 1 exit 1
+REM rerun_pixi_env is only needed to generate pyo3-build.cfg. Remove it so its
+REM helper scripts are not shipped in the package.
+%PYTHON% -m pip uninstall -y rerun_pixi_env
+if errorlevel 1 exit 1
 
 REM Build the rerun-web-viewer assets
 set RUST_BACKTRACE=1
