@@ -63,7 +63,7 @@ set "CPPFLAGS="
 set "TARGET_CFLAGS="
 set "TARGET_CXXFLAGS="
 set "TARGET_CPPFLAGS="
-cargo run --locked -p re_dev_tools -- build-web-viewer --no-default-features --features analytics,map_view --release -g
+cargo run --locked -p re_dev_tools -- build-web-viewer --features analytics,map_view --release -g
 if errorlevel 1 (
     endlocal
     exit /b 1

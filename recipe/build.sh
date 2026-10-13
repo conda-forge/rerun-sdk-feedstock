@@ -68,7 +68,7 @@ run_wasm_build() {
 }
 
 # Build the rerun-web-viewer assets.
-run_wasm_build cargo run --locked -p re_dev_tools -- build-web-viewer --no-default-features --features analytics,map_view --release -g
+run_wasm_build cargo run --locked -p re_dev_tools -- build-web-viewer --features analytics,map_view --release -g
 
 # Build the rerun-cli and insert it into the python package
 cargo build --package rerun-cli $CROSS_TARGET --no-default-features --features release_full --release
