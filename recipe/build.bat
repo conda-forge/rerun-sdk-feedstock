@@ -63,7 +63,9 @@ set "CPPFLAGS="
 set "TARGET_CFLAGS="
 set "TARGET_CXXFLAGS="
 set "TARGET_CPPFLAGS="
-cargo run --locked -p re_dev_tools -- build-web-viewer --features analytics,map_view --release -g
+REM Use the upstream default features (analytics,default_web), which include
+REM audio and map_view, as the upstream release build does.
+cargo run --locked -p re_dev_tools -- build-web-viewer --release -g
 if errorlevel 1 (
     endlocal
     exit /b 1
