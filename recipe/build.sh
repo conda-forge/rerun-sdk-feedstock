@@ -11,6 +11,13 @@ cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
 # The CI environment variable means something specific to Rerun. Unset it.
 unset CI
 
+# Setting RUSTFLAGS, even to an empty value, makes cargo ignore the
+# `build.rustflags` in upstream's .cargo/config.toml. That drops the
+# `rerun_workspace_hack` cfg, which otherwise makes every crate (including the
+# small re_dev_tools helper) compile the whole workspace's dependency set.
+# Upstream CI disables it the same way.
+export RUSTFLAGS=""
+
 # conda's compiler activation configures the native compiler and archiver.
 # Rust's cc crate gives target-qualified tool variables precedence, so keep the
 # LLVM toolchain scoped to the web viewer's WASM target. Clang compiles native
