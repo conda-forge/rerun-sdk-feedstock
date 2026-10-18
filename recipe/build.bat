@@ -9,6 +9,14 @@ REM The CI environment variable means something specific to Rerun. Unset it.
 set CI=
 set IS_IN_RERUN_WORKSPACE=no
 
+REM Setting RUSTFLAGS makes cargo ignore the rustflags in upstream's
+REM .cargo/config.toml. That drops the `rerun_workspace_hack` cfg, which
+REM otherwise makes every crate (including the small re_dev_tools helper)
+REM compile the whole workspace's dependency set. Upstream CI disables it the
+REM same way. cmd cannot set an empty variable, so use a no-op flag:
+REM release builds already have no debug info.
+set "RUSTFLAGS=-Cdebuginfo=0"
+
 REM conda's compiler activation configures the native compiler and archiver.
 REM Rust's cc crate gives target-qualified tool variables precedence, so keep the
 REM LLVM toolchain scoped to the web viewer's WASM target. Clang compiles native
@@ -63,7 +71,9 @@ set "CPPFLAGS="
 set "TARGET_CFLAGS="
 set "TARGET_CXXFLAGS="
 set "TARGET_CPPFLAGS="
-cargo run --locked -p re_dev_tools -- build-web-viewer --no-default-features --features analytics,map_view --release -g
+REM Use the upstream default features (analytics,default_web), which include
+REM audio and map_view, as the upstream release build does.
+cargo run --locked -p re_dev_tools -- build-web-viewer --release -g
 if errorlevel 1 (
     endlocal
     exit /b 1
