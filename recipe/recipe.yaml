@@ -39,6 +39,13 @@ build:
     missing_dso_allowlist:
       - if: win
         then: "*/api-ms-win-core-winrt-l1-1-0.dll"
+    # Keep the installed-layout rpath that build.sh adds (lib/ as seen from
+    # lib/pythonX.Y/site-packages/<pkg>/).
+    rpath_allowlist:
+      - if: osx
+        then: "@loader_path/../../.."
+      - if: linux
+        then: "$ORIGIN/../../.."
 
 requirements:
   build:
