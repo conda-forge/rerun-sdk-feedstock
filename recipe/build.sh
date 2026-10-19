@@ -16,7 +16,18 @@ unset CI
 # `rerun_workspace_hack` cfg, which otherwise makes every crate (including the
 # small re_dev_tools helper) compile the whole workspace's dependency set.
 # Upstream CI disables it the same way.
-export RUSTFLAGS=""
+#
+# rattler-build relinks abi3 (version-independent) packages in their packaged
+# layout, site-packages/<pkg>/, instead of the installed one,
+# lib/pythonX.Y/site-packages/<pkg>/. The rpath it computes to $PREFIX/lib is
+# therefore two levels short, and the CLI and the bindings fail to load
+# libiconv (macOS) or libudev (Linux). Add an rpath for the installed layout.
+# recipe.yaml allow-lists it so that the relinker keeps it.
+if [[ $target_platform == osx-* ]]; then
+    export RUSTFLAGS="-C link-arg=-Wl,-rpath,@loader_path/../../.."
+else
+    export RUSTFLAGS='-C link-arg=-Wl,-rpath,$ORIGIN/../../..'
+fi
 
 # conda's compiler activation configures the native compiler and archiver.
 # Rust's cc crate gives target-qualified tool variables precedence, so keep the
