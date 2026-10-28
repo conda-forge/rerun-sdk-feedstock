@@ -85,10 +85,10 @@ run_wasm_build() {
     )
 }
 
-# Build the rerun-web-viewer assets. Use the upstream default features
-# (analytics,default_web), which include audio and map_view, as the upstream
-# release build does.
-run_wasm_build cargo run --locked -p re_dev_tools -- build-web-viewer --release -g
+# Build the rerun-web-viewer assets. Upstream 0.41 removed the
+# re_dev_tools build-web-viewer command; scripts/build_web_viewer.py is
+# its replacement and defaults to the analytics,default_web features.
+run_wasm_build "${PYTHON}" scripts/build_web_viewer.py --release -g
 
 # Build the rerun-cli and insert it into the python package
 cargo build --package rerun-cli $CROSS_TARGET --no-default-features --features release_full --release

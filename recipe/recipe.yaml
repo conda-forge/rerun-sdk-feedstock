@@ -67,6 +67,8 @@ requirements:
     - rust-std-wasm32-unknown-unknown
     # binaryen provides wasm-opt for optimizing the .wasm file.
     - binaryen
+    # scripts/build_web_viewer.py requires the CLI to match Cargo.lock.
+    - wasm-bindgen-cli ==0.2.129
     # The conda package for Node.js 26.8.0 identifies itself as a prerelease,
     # which Yarn's dependency engine checks reject during the web viewer build.
     - nodejs >=20.12,!=26.8.0
