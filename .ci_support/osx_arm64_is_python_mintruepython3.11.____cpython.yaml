@@ -33,7 +33,7 @@ python:
 python_min:
 - '3.11'
 rust_compiler_version:
-- 1.96.0
+- 1.98.1
 target_platform:
 - osx-arm64
 zip_keys:
