@@ -63,9 +63,6 @@ if [[ ${#ARTIFACT_UNIQUE_ID} -gt 80 ]]; then
 fi
 echo "ARTIFACT_UNIQUE_ID: $ARTIFACT_UNIQUE_ID"
 
-# Set a descriptive ID for the archive(s), specialized for this particular job run
-ARCHIVE_UNIQUE_ID="${CI_RUN_ID}_${CONFIG}"
-
 pushd "${CONDA_BLD_PATH}"
 
 # --use-compress-prog= lets us pass the options to GNU tar and libarchive tar
@@ -124,7 +121,7 @@ if [[ ! -z ${BLD_ARTIFACT_PREFIX} && -n ${ARTIFACT_PATHS} ]]; then
     echo "Creating build artifact archive ..."
     # Note: because of https://github.com/actions/upload-artifact/issues/785,
     # *_ARTIFACT_NAME should be the filename of *_ARTIFACT_PATH
-    export BLD_ARTIFACT_NAME="${FEEDSTOCK_NAME}_${BLD_ARTIFACT_PREFIX}_${ARCHIVE_UNIQUE_ID}.tar.zst"
+    export BLD_ARTIFACT_NAME="${FEEDSTOCK_NAME}_${BLD_ARTIFACT_PREFIX}_${ARTIFACT_UNIQUE_ID}.tar.zst"
     export BLD_ARTIFACT_PATH="${ARTIFACT_STAGING_DIR}/${BLD_ARTIFACT_NAME}"
 
     # All our CI services have either GNU tar or bsdtar, and zstd.
@@ -160,7 +157,7 @@ echo
 # Make the workdir artifact archive
 if [[ ! -z ${WRK_ARTIFACT_PREFIX} ]]; then
     echo "Creating work directory archive ..."
-    export WRK_ARTIFACT_NAME="${FEEDSTOCK_NAME}_${WRK_ARTIFACT_PREFIX}_${ARCHIVE_UNIQUE_ID}.tar.zst"
+    export WRK_ARTIFACT_NAME="${FEEDSTOCK_NAME}_${WRK_ARTIFACT_PREFIX}_${ARTIFACT_UNIQUE_ID}.tar.zst"
     export WRK_ARTIFACT_PATH="${ARTIFACT_STAGING_DIR}/${WRK_ARTIFACT_NAME}"
 
     # All our CI services have either GNU tar or bsdtar, and zstd.
@@ -197,7 +194,7 @@ echo
 # Make the environments artifact archive
 if [[ ! -z ${ENV_ARTIFACT_PREFIX} && -n ${ENVIRONMENT_PATHS[@]} ]]; then
     echo "Creating build environment artifact archive ..."
-    export ENV_ARTIFACT_NAME="${FEEDSTOCK_NAME}_${ENV_ARTIFACT_PREFIX}_${ARCHIVE_UNIQUE_ID}.tar.zst"
+    export ENV_ARTIFACT_NAME="${FEEDSTOCK_NAME}_${ENV_ARTIFACT_PREFIX}_${ARTIFACT_UNIQUE_ID}.tar.zst"
     export ENV_ARTIFACT_PATH="${ARTIFACT_STAGING_DIR}/${ENV_ARTIFACT_NAME}"
 
     if ! tar -c -f "${ENV_ARTIFACT_PATH}" "${ZSTD}" "${ENVIRONMENT_PATHS[@]}" &&
