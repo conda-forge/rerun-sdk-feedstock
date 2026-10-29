@@ -71,9 +71,10 @@ set "CPPFLAGS="
 set "TARGET_CFLAGS="
 set "TARGET_CXXFLAGS="
 set "TARGET_CPPFLAGS="
-REM Use the upstream default features (analytics,default_web), which include
-REM audio and map_view, as the upstream release build does.
-cargo run --locked -p re_dev_tools -- build-web-viewer --release -g
+REM Upstream 0.41 removed the re_dev_tools build-web-viewer command;
+REM scripts/build_web_viewer.py is its replacement and defaults to the
+REM analytics,default_web features.
+%PYTHON% scripts/build_web_viewer.py --release -g
 if errorlevel 1 (
     endlocal
     exit /b 1
