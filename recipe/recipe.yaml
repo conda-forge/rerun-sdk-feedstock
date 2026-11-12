@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   name: rerun-sdk
-  version: "0.43.0"
+  version: "0.43.1"
   build_number: 0
 
 package:
@@ -11,7 +11,7 @@ package:
 
 source:
   url: https://github.com/rerun-io/rerun/archive/refs/tags/${{ version }}.tar.gz
-  sha256: d1e7bd0d02869a25771ba056974fa4a186d696f1d6f55c69dd1b812ef2f8439f
+  sha256: 653297183e4f806d3c4ed840707bbda2abef452f61e3819741556629bf563332
 
 build:
   number: ${{ build_number }}
